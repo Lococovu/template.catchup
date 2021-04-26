@@ -1,0 +1,108 @@
+on script load:
+  delete {queue::*}
+
+function joinQueue(player: player):
+  # Checking if we have any working workers
+  if {workers::%{_player}%::queue} is set:
+    delete {workers::%{_player}%::queue}
+    wait 1 second
+    if {workers::%{_player}%::queue} is set:
+      stop
+
+  # Starting our Queue worker
+  set {_queue::id} to random integer between 0000 and 9999
+  set {queue::id::%{_queue::id}%::status} to "IDLE"
+  
+  delete {workers::%{_player}%::bossbar}
+
+  if {player::%{_player}%::inGame} is set:
+    delete {player::%{_player}%::inGame}
+    stop
+
+  set {_working} to true
+  while {_working} is true:
+    if {_player} is offline:
+      stop
+
+    set {_status} to {queue::id::%{_queue::id}%::status}
+
+    if {workers::%{_player}%::queue} is not set:
+      set {workers::%{_player}%::queue} to {_queue::id}
+
+    # Bossbar
+    set {_bossbar} to {bossbar::%{_player}%}
+
+    # IDLE STATUS
+    if {_status} is "IDLE":
+      if skellett visibility of bossbar {_bossbar} is false:
+        skellett show bossbar {_bossbar}
+
+      set {_title} to "&7┅ &fВы стоите в очереди..."
+      if skellett title of bossbar {_bossbar} isn't "%{_title}%":
+        set skellett title of bossbar {_bossbar} to "%{_title}%"
+
+      if skellett color of bossbar {_bossbar} isn't WHITE:
+        set skellett color of bossbar {_bossbar} to WHITE
+    else if {_status} is "PICKED":
+      set skellett color of bossbar {_bossbar} to YELLOW
+      set skellett title of bossbar {_bossbar} to "&e▷ &fПрисоединение к игре..."
+
+      delete {queue::id::%{_queue::id}%::*}
+      remove {_queue::id} from {queue::*}
+      
+      stop
+    else if {_status} is "CANCELED":
+      skellett hide bossbar {_bossbar}
+      delete {workers::%{_player}%::bossbar}
+
+      delete {queue::id::%{_queue::id}%::*}
+      remove {_queue::id} from {_queue::*}
+      
+      stop
+
+    # Variables
+    if {queue::*} doesn't contain {_queue::id}:
+      add {_queue::id} to {queue::*}
+      
+      set {queue::id::%{_queue::id}%::player} to {_player}
+      set {queue::id::%{_queue::id}%::status} to "IDLE"
+
+    if {workers::%{_player}%::queue} is not set:
+      set {workers::%{_player}%::queue} to true
+
+    wait 1 tick
+
+# IDLE
+# ASSIGNED
+# WAITING
+# PLAYING
+
+every 2 seconds:
+  # Looping all players in queue and
+  # moving them to different rooms
+  loop {queue::*}:
+    delete {_id}
+    delete {_room}
+    delete {_next}
+    delete {_player}
+    delete {_status}
+    delete {_assigned}
+
+    set {_id} to loop-value
+    set {_room} to {queue::id::%{_id}%::room}
+    set {_player} to {queue::id::%{_id}%::player}
+    set {_status} to {queue::id::%{_id}%::status}
+
+    if {_room} is not set:
+      # Assigning player to empty room
+      loop {rooms::*}:
+        if {_assigned} isn't true:
+          set {_room::id} to loop-value-2
+          set {_players::*} to {rooms::%{_room::id}%::players::*}
+
+          {rooms::%{_room::id}%::status} isn't "PLAYING"
+          if size of {_players::*} < 4:
+            set {_assigned} to true
+
+            # Assigning this player to this room
+            assignToRoom({_player}, "%{_room::id}%")

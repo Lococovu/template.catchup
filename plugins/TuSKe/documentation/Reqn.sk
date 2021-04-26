@@ -1,0 +1,91 @@
+Effects:
+	EffRequest:
+		ID: EffRequest
+		Patterns:
+			send [a[n]] [http] [%-string%] [web] request to [the] [url] %string% [with ([the] header[s] %-strings% [and [the] body %-strings%]|[the] body %-strings% [and [the] header[s] %-strings%])]
+Expressions:
+	ExprJSONEncode:
+		ID: ExprJSONEncode
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			json (safe|encoded|escaped) %strings%
+	ExprLastHttpResponse:
+		ID: ExprLastHttpResponse
+		Return type: httpresponse
+		Changers:
+			none
+		Patterns:
+			[the] [last[ly]] [received] [http] [web] response
+	ExprResponseBody:
+		ID: ExprResponseBody
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] [response] bod(y|ies) of %httpresponses%
+			%httpresponses%'[s] [response] bod(y|ies)
+	ExprResponseCode:
+		ID: ExprResponseCode
+		Return type: integer
+		Changers:
+			none
+		Patterns:
+			[the] [response] [status] code[s] of %httpresponses%
+			%httpresponses%'[s] [response] [status] code[s]
+	ExprResponseHeaders:
+		ID: ExprResponseHeaders
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] [response] header[s] of %httpresponses%
+			%httpresponses%'[s] [response] header[s]
+	ExprResponseKeys:
+		ID: ExprResponseKeys
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] [response] header key[s] of %httpresponses%
+			%httpresponses%'[s] [response] header key[s]
+	ExprResponseMessage:
+		ID: ExprResponseMessage
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] [response] [status] (message|reason)[s] of %httpresponses%
+			%httpresponses%'[s] [response] [status] (message|reason)[s]
+	ExprResponseSpecificValues:
+		ID: ExprResponseSpecificValues
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] %string% [response] header[ value][s] of %httpresponses%
+			%httpresponses%'[s] %string% [response] header[ value][s]
+	ExprResponseStatus:
+		ID: ExprResponseStatus
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] [response] status[(es| line[s])] of %httpresponses%
+			%httpresponses%'[s] [response] status[(es| line[s])]
+	ExprResponseValues:
+		ID: ExprResponseValues
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] [response] header value[s] of %httpresponses%
+			%httpresponses%'[s] [response] header value[s]
+	ExprURLEncode:
+		ID: ExprURLEncode
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			(http|ur(i|l)) (safe|encoded|escaped) %strings%

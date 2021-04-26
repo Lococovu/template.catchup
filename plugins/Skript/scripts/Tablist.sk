@@ -1,0 +1,4 @@
+every 1 second:
+  loop all players:
+    set loop-player's tab list header to "%newline%%newline%     &f&lᴋɴᴏᴄᴋʙᴀᴄᴋ     %newline%"
+    set loop-player's tab list footer to "%newline%     &9✉ &fНаш дискорд:     %newline%     &7discord&f.lococovu.me     %newline%"

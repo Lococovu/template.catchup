@@ -1,0 +1,66 @@
+function PlayerEntry(player: player, fromGame: boolean):
+  # Teleporting player to lobby
+  set {_location} to getLocation("-17.5, 4, -144.5", "lobby")
+  set glowing of {_player} to false
+
+  delete {player::%{_player}%::games::*}
+  teleport {_player} to {_location}
+
+  delete {player::%{_player}%::inGame}
+  delete {player::%{_player}%::role}
+  delete {player::%{_player}%::catched}
+
+  # Items in player's inventory
+  lobby_items({_player})
+
+  if {_fromGame} isn't true:
+    if {player::%{_player}%::setting::autoJoinQueue} is true:
+      # Joining queue
+      joinQueue({_player})
+
+  wait 2 ticks
+
+  reveal {_player}
+
+on right click:
+  cancel event
+  if name of player's held item contains "Авто-игра":
+    if {player::%player%::setting::autoJoinQueue} is true:
+      set {player::%player%::setting::autoJoinQueue} to false
+
+      # Leaving queue
+      set {workers::%{_player}%::bossbar} to "CANCELED"
+
+    else:
+      set {player::%player%::setting::autoJoinQueue} to true
+      joinQueue(player)
+
+    lobby_items(player)
+  else if name of player's held item contains "Список":
+    execute player command "/explorer"
+
+function lobby_items(player: player):
+  # Main Menu
+  set {_menu} to player head named "&9☖ &fГлавное меню" with lore ""
+  add "{SkullOwner:{Id:""67303f01-b659-4ce5-8706-b623a16c1db2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Y3Y2RlZWZjNmQzN2ZlY2FiNjc2YzU4NGJmNjIwODMyYWFhYzg1Mzc1ZTlmY2JmZjI3MzcyNDkyZDY5ZiJ9fX0=""}]}}}" to item-nbt of {_menu}
+
+  set slot 3 of {_player} to {_menu}
+  
+  # Explorer
+  set {_explorer} to player head named "&9△ &fСписок игр" with lore "" 
+  add "{SkullOwner:{Id:""53bc99c1-6922-e3f0-c9ec-1f18e3df3d6c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQzZDI1MGUyNWJiY2EzYTYyYmU1YjNlZjAyY2ZjYWI2ZGNkYzQyNDg4NGM5YTdkNWNjOTVjOWQwIn19fQ==""}]}}}" to item-nbt of {_explorer}
+
+  set slot 4 of {_player} to {_explorer}
+
+  # Auto-play
+  if {player::%{_player}%::setting::autoJoinQueue} isn't false:
+    set {_icon} to "&a✓"
+    set {_nbt} to "{SkullOwner:{Id:""8d48c819-2b2c-4f7c-9c93-05e769cbcd6c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg2MTg1YjFkNTE5YWRlNTg1ZjE4NGMzNGYzZjNlMjBiYjY0MWRlYjg3OWU4MTM3OGU0ZWFmMjA5Mjg3In19fQ==""}]}}}"
+  else:
+    set {_icon} to "&c✕"
+    set {_nbt} to "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}"
+
+  set {_autoplay} to player head named "%{_icon}% &fАвто-игра"
+  add "%{_nbt}%" to item-nbt of {_autoplay}
+  
+  set slot 5 of {_player} to {_autoplay}

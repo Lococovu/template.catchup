@@ -1,0 +1,26 @@
+on chat:
+  cancel event
+  if {authorized::%player%} is not set:
+    stop
+
+  loop all players:
+    if {authorized::%loop-player%} is true:
+      if {jail::%player%::time} > 0:
+        set {_suffix} to "&cзаблокирован "
+        if {chat::%player%::cooldown} >= now:
+          set {_time} to "%difference between {chat::%player%::cooldown} and now%"
+          set {_time::string} to visualizeTime({_time})
+
+          send "&c✕ &fЕй-ей! Не спеши так! Своё следующее сообщение ты сможешь отправить через &c%{_time::string}%" to player
+          send "&7 &7Так что давай придумывай то, что" to player
+          send "&7 &7ты там так хотел написать и пиши" to player
+          send "&7 &7это всё одним предложением." to player
+
+          stop
+        else:
+          set {chat::%player%::cooldown} to now
+          add 15 seconds to {chat::%player%::cooldown}
+
+      if {_suffix} is not set:
+        set {_suffix} to ""
+      send "%{_suffix}%&7%player%: &f%message%" to loop-player

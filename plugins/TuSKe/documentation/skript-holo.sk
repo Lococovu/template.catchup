@@ -1,0 +1,437 @@
+Events:
+	On Hologram Line Click:
+		ID: hologram_line_click
+		Description:
+			Called when a player clicks on a hologram line. See the `Make Hologram Line Click-able` effect.
+		Examples:
+			on hologram click:
+				if event-hologram-line is "test":
+		Since:
+			1.0.0
+		Patterns:
+			[on] holo[gram] [line] click
+		Event values:
+			event-player
+			event-hologram
+			event-hologramline
+		Cancellable: false
+	On Hologram Line Touch:
+		ID: hologram_line_touch
+		Description:
+			Called while a player is trying to pickup an item in a hologram line. See the `Make Hologram Line Touchable` effect.
+		Examples:
+			on hologram touch:
+				if hologram line is a stone:
+					give item of event-hologram-line to player
+		Since:
+			1.0.0
+		Patterns:
+			[on] holo[gram] [line] touch
+		Event values:
+			event-player
+			event-hologram
+			event-hologramline
+			event-itemtype
+		Cancellable: false
+Conditions:
+	Can See Hologram:
+		ID: CondCanSeeHologram
+		Description:
+			Checks whether the given players can see the given holograms. Use the `Hologram Visibility` effect to hide/show holograms.
+		Examples:
+			if holo {_variable} is hidden from the player:
+			if all players can see holograms {_list::*}:
+			if hologram {_holo} is not visible for {_player}:
+			if the player can see the holo {holograms::1}:
+		Since:
+			1.0.0
+		Patterns:
+			[holo[gram][s]] %holograms% (is|are) (visible|(invisible|hidden)) (for|to|from) %players%
+			%players% can see [holo[gram][s]] %holograms%
+			[holo[gram][s]] %holograms% (is|are)(n't| not) (visible|(invisible|hidden)) (for|to|from) %players%
+			%players% can('t| not) see [holo[gram][s]] %holograms%
+	Hologram Allows Placeholders:
+		ID: CondHologramAllowsPlaceholders
+		Description:
+			Checks whether the given hologram allows placeholders.
+		Examples:
+			if event-hologram allows placeholders:
+			if placeholders in event-hologram are enabled:
+			if hologram {_variable} disallows placeholders:
+			if {_holo} doesn't allow placeholders:
+			if placeholders for {_holograms::*} are disabled:
+		Since:
+			1.0.0
+		Patterns:
+			[holo[gram][s]] %holograms% (allow|disallow)[s] placeholders
+			placeholders (in|for) [holo[gram][s]] %holograms% are (enabled|disabled)
+			[holo[gram][s]] %holograms% (doesn't|does not|don't|do not) (allow|disallow) placeholders
+			placeholders (in|for) [holo[gram][s]] %holograms% (aren't|are not) (enabled|disabled)
+	Is Following Hologram:
+		ID: CondIsFollowingHologram
+		Description:
+			Checks whether the given hologram is a following hologram.
+		Examples:
+			if {_holo} is a following hologram:
+		Since:
+			1.0.0
+		Patterns:
+			[holo[gram][s]] %holograms% (is|are) [a] following [holo[gram][s]]
+			[holo[gram][s]] %holograms% (isn't|is not|aren't|are not) [a] following [holo[gram][s]]
+	Is Hologram Deleted:
+		ID: CondIsHologramDeleted
+		Description:
+			Checks whether the given hologram is deleted. When you delete a hologram that is stored in a variable, the hologram object will still exist in the variable but will not be usable. This condition exists to check this case.
+		Examples:
+			if hologram {variable} is deleted:
+		Since:
+			1.0.0
+		Patterns:
+			holo[gram][s] %holograms% (is|are) (deleted|removed|cleared)
+			holo[gram][s] %holograms% (isn't|is not|aren't|are not) (deleted|removed|cleared)
+	Is Hologram Entity:
+		ID: CondIsHologramEntity
+		Description:
+			Checks whether the given entity is a part of a hologram. It is not possible to get the hologram.
+		Examples:
+			if targeted entity is a part of a hologram:
+			if {_entities::*} are hologram entities:
+		Since:
+			1.0.0
+		Patterns:
+			%entities% (is|are) [[a] part[s] of] [a] holo[gram] [entit(y|ies)]
+			%entities% (isn't|is not|aren't|are not) [[a] part[s] of] [a] holo[gram] [entit(y|ies)]
+	Is Hologram Line Click-able:
+		ID: CondIsHologramLineClickable
+		Description:
+			Checks whether the given hologram line is click-able.
+		Examples:
+			if line 3 of {_hologram} is click-able:
+		Since:
+			1.0.0
+		Patterns:
+			[holo[gram] line[s]] %hologramlines% (is|are) [((un|non[-]))]click[-]able
+			[holo[gram] line[s]] %hologramlines% (isn't|is not|aren't|are not) [((un|non[-]))]click[-]able
+	Is Hologram Line Touchable:
+		ID: CondIsHologramLineTouchable
+		Description:
+			Checks whether the given hologram line is touchable.
+		Examples:
+			if line 3 of {_hologram} is touchable:
+		Since:
+			1.0.0
+		Patterns:
+			[holo[gram] line[s]] %hologramlines% (is|are) [((non[-]|un))]touch[-]able
+			[holo[gram] line[s]] %hologramlines% (isn't|is not|aren't|are not) [((non[-]|un))]touch[-]able
+	Is Hologram Visible by Default:
+		ID: CondIsHologramVisibleByDefault
+		Description:
+			Checks whether the given hologram is visible by default.
+		Examples:
+			if {_hologram} is visible by default:
+			if holograms {_list::*} are hidden by default:
+		Since:
+			1.0.0
+		Patterns:
+			[holo[gram][s]] %holograms% (is|are) (visible|(invisible|hidden)) by default
+			[holo[gram][s]] %holograms% (isn't|is not|aren't|are not) (visible|(invisible|hidden)) by default
+	Is Text/Item Line:
+		ID: CondIsHologramLineTextItem
+		Description:
+			Checks whether the given hologram line is a text line or an item line. The `Hologram Line Content` expression can be used to get the text or the item.
+		Examples:
+			if event-holo-line is a text line:
+			if line 3 of holo {_variable} is an item line:
+			if lines of event-holo aren't string lines:
+		Since:
+			1.0.0
+		Patterns:
+			[holo[gram] line[s]] %hologramlines% (is|are) [a[n]] ((text|string)|item) line[s]
+			[holo[gram] line[s]] %hologramlines% (isn't|is not|aren't|are not) [a[n]] ((text|string)|item) line[s]
+Effects:
+	Add Hologram Line:
+		ID: EffAddHologramLine
+		Description:
+			Adds new lines to a hologram. `insert` means adding after the specified line and moving the next lines below.
+		Examples:
+			append a stone to {_holo}
+			prepend "<light green>Test" to the created hologram
+			insert lines "&cRedstone" and a redstone in holo at line 2
+			insert every diamond armor into the hologram at the 5th line
+		Since:
+			1.0.0
+		Patterns:
+			append [((click|touch|interact)[-]able|interactive)] [line[s]] %-strings/itemtypes% to [holo[gram][s]] %holograms%
+			prepend [((click|touch|interact)[-]able|interactive)] [line[s]] %-strings/itemtypes% to [holo[gram][s]] %holograms%
+			insert [((click|touch|interact)[-]able|interactive)] [line[s]] %-strings/itemtypes% in[to] [holo[gram][s]] %holograms% at line %number%
+			insert [((click|touch|interact)[-]able|interactive)] [line[s]] %-strings/itemtypes% in[to] [holo[gram][s]] %holograms% at [the] %number%(st|nd|rd|th) line
+	Allow Placeholders in Hologram:
+		ID: EffAllowPlaceholdersInHologram
+		Description:
+			Allows/disallows placeholders in a hologram. Disallowed by default.
+		Examples:
+			allow placeholders in the created hologram
+			disable placeholders for {_hologram}
+			enable the placeholders in the holo
+			disallow placeholders in {_holograms::*}
+		Since:
+			1.0.0
+		Patterns:
+			(allow|enable) [the] placeholders (in|for) [holo[gram][s]] %holograms%
+			(disallow|disable) [the] placeholders (in|for) [holo[gram][s]] %holograms%
+	Create Hologram:
+		ID: EffCreateHologram
+		Examples:
+			create a new hologram with line "test" and store in {test}
+			create new holo with lines "line 1", "line 2" and "line 3"
+			create new hologram with line "test" that follows player offset by direction 2.3 meters above
+			spawn a holo with click-able line "Click" that follows the spawned entity with offset (1.75 meters above and 1 meter infront)
+			create a hologram with lines "&bDiamond Armor" and every diamond armor and store it in {holograms::1}
+			spawn hologram with touchable line stone at {_location}
+		Since:
+			1.0.0
+		Patterns:
+			(create|spawn) [a] [new] holo[gram] [with [((click|touch|interact)[-]able|interactive)] line[s] %-strings/itemtypes%] [%direction% %location%] [and store [it] in [[the] variable] %-objects%]
+			(create|spawn) [a] [new] holo[gram] [with [((click|touch|interact)[-]able|interactive)] line[s] %-strings/itemtypes%] that follows %entity% [[with] offset [(of|by|in|to)] [[the] direction] %-directions%] [and store [it] in [[the] variable] %-objects%]
+	Delete Hologram:
+		ID: EffDeleteHologram
+		Examples:
+			delete holo {_var}
+			remove holograms {_holograms::*}
+		Since:
+			1.0.0
+		Patterns:
+			(delete|remove|clear) holo[gram][s] %holograms%
+	Following Hologram:
+		ID: EffFollowingHologram
+		Description:
+			Makes a hologram start/stop following an entity.
+		Since:
+			1.0.0
+		Patterns:
+			(make|let) [holo[gram][s]] %holograms% (start following|follow) %entity% [[with] offset [(of|by|in|to)] [[the] direction] %-directions%]
+			(make|let) [holo[gram][s]] %holograms% (stop following|unfollow)
+	Hologram Visibility:
+		ID: EffHologramVisibility
+		Description:
+			Changes visibility of a hologram for the given players or makes a hologram invisible/visible by default.Resetting hologram visibility means setting the visibility to the default value (visible if not changed).
+		Examples:
+			hide the last created hologram from the player
+			reveal holos {holograms::*} to {_players::*}
+			reset the visibility of all holograms
+			make the last holo invisible by default
+			make all holograms visible by default
+		Since:
+			1.0.0
+		Patterns:
+			hide [holo[gram][s]] %holograms% (from|for) %players%
+			reveal [holo[gram][s]] %holograms% (to|for|from) %players%
+			reset [the] visibilit(y|ies) of [holo[gram][s]] %holograms% [for %-players%]
+			(make|let) [holo[gram][s]] %holograms% (invisible|hidden) by default
+			(make|let) [holo[gram][s]] %holograms% visible by default
+	Make Hologram Line Click-able/Touchable:
+		ID: EffMakeHologramLineInteractive
+		Examples:
+			make 1st line of last holo click-able
+			make all lines of {_holo} untouchable
+			make the last line of {_hologram} non-interactive
+			make line 2 of the created hologram interactive
+		Since:
+			1.0.0
+		Patterns:
+			(make|let) [holo[gram] line[s]] %hologramlines% [((un|non[-]))]click[-]able
+			(make|let) [holo[gram] line[s]] %hologramlines% [((un|non[-]))]touch[-]able
+			(make|let) [holo[gram] line[s]] %hologramlines% [((non[-]|un))](interactive|interact[-]able)
+	Teleport Hologram:
+		ID: EffTeleportHologram
+		Description:
+			Teleports a hologram to a specific location.
+		Examples:
+			teleport event-holo to the player
+			teleport holograms {_holograms:*} to {_location}
+		Since:
+			1.0.0
+		Patterns:
+			teleport [holo[gram][s]] %holograms% (to|%direction%) %location%
+Expressions:
+	All Holograms:
+		ID: ExprHolograms
+		Description:
+			Returns all the holograms created by skript-holo or other plugins *except HolographicDisplays*.
+		Examples:
+			loop all holograms:
+		Since:
+			1.0.0
+		Return type: Hologram
+		Changers:
+			none
+		Patterns:
+			[all] [the] holo[gram]s [([created] by|of|under|from) skript-holo]
+			[all] [the] holo[gram]s ([created] by|of|under|from) [the] [plugin[s]] %strings%
+	Followed Entity of Hologram:
+		ID: ExprFollowedEntityByHologram
+		Description:
+			Returns the followed entity of a hologram. Use the `Following Hologram` effect to make an exiting hologram start/stop following an entity.
+		Examples:
+			kill the followed entity of last hologram
+			set {_entities::*} to the entities followed by holograms {_list::*}
+		Since:
+			1.0.0
+		Return type: Entity
+		Changers:
+			add
+			remove
+			remove all
+		Patterns:
+			[the] followed entit(y|ies) (of|by) [holo[gram][s]] %holograms%
+			[the] entit(y|ies) followed by [holo[gram][s]] %holograms%
+	Following Hologram Offset:
+		ID: ExprFollowingHologramOffset
+		Description:
+			Returns offset (directions) of a following hologram. Can be set.
+		Examples:
+			delete offset of last holo
+			set following offset of {_hologram} to 0.5 meters east and 2.5 meters above
+		Since:
+			1.0.0
+		Return type: Direction
+		Changers:
+			set
+			delete
+			reset
+		Patterns:
+			[the] [following] offset[s] of [holo[gram][s]] %holograms%
+			%holograms%'[s] [following] offset[s]
+	Following Holograms of Entity:
+		ID: ExprEntityFollowingHolograms
+		Description:
+			Returns the following holograms of an entity. Use the `Following Hologram` effect to make an exiting hologram start/stop following an entity.
+		Examples:
+			delete the following holograms of targeted entity
+			set {_holograms::*} to all holograms that follows the player
+		Since:
+			1.0.0
+		Return type: Hologram
+		Changers:
+			none
+		Patterns:
+			[all] [the] following holo[gram]s of %entities%
+			[all] [the] holo[gram]s (following|that follows) %entities%
+	Hologram Creation Date:
+		ID: ExprHologramCreationDate
+		Description:
+			Returns the creation date of a hologram.
+		Examples:
+			if difference between creation date of event-hologram and now is greater than a hour:
+		Since:
+			1.0.0
+		Return type: Date
+		Changers:
+			none
+		Patterns:
+			[the] (creation|spawned) date[s] of [holo[gram][s]] %holograms%
+			%holograms%'[s] (creation|spawned) date[s]
+	Hologram Height:
+		ID: ExprHologramHeight
+		Description:
+			Returns the physical height of a hologram.
+		Examples:
+			set {_height} to height of holo {_hologram}
+		Since:
+			1.0.0
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[the] [physical] height[s] of [holo[gram][s]] %holograms%
+			%holograms%'[s] [physical] height[s]
+	Hologram Line Content:
+		ID: ExprHologramLineContent
+		Description:
+			Returns content (text or item) of a hologram line. Please note that there are hologram line to text and item converters so you can use a hologram line like a text or an item (e.g. give first line of holo to player)
+		Examples:
+			give items in lines of last created hologram to player
+			message text of line 3 of {_holo}
+			set {_contents::*} to contents of all lines of {_holo}
+		Since:
+			1.0.0
+		Return type: Object
+		Changers:
+			set
+			delete
+			reset
+		Patterns:
+			[the] (content|(text|string)|item)[s] (of|in) [holo[gram] line[s]] %hologramlines%
+			%hologramlines%'[s] (content|(text|string)|item)[s]
+	Hologram Line Number:
+		ID: ExprHologramLineNumber
+		Description:
+			Returns the number of a hologram line. But please note that getting line number of a hologram line will check every line of the hologram. You shouldn't make systems that relies on line numbers, but contents.
+		Examples:
+			if line number of event-holo-line is 2:
+		Since:
+			1.0.0
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[the] line number[s] of [holo[gram] line[s]] %hologramlines%
+			%hologramlines%'[s] line number[s]
+	Hologram Lines:
+		ID: ExprHologramLines
+		Since:
+			1.0.0
+		Return type: Hologram Line
+		Changers:
+			set
+			delete
+			reset
+		Patterns:
+			[all] [the] lines of [holo[gram][s]] %holograms%
+			%holograms%'[s] [all] lines
+			[the] line %number% of [holo[gram][s]] %holograms%
+			[the] %number%(st|nd|rd|th) line[s] of [holo[gram][s]] %holograms%
+			[the] (first|last) line[s] of [holo[gram][s]] %holograms%
+	Last Created Hologram:
+		ID: ExprLastCreatedHologram
+		Description:
+			Holds the hologram that was created most recently with the `Create Hologram` effect.
+			Can be deleted using the `delete/clear` changer which means the hologram will be removed from the world and this expression will be empty.
+		Examples:
+			set {_holo} to the created hologram
+		Since:
+			1.0.0
+		Return type: Hologram
+		Changers:
+			none
+		Patterns:
+			[the] [last[ly]] [(created|spawned)] holo[gram]
+	Parent Hologram of Hologram Line:
+		ID: ExprHologramLineParent
+		Description:
+			Returns the parent hologram of a hologram line.
+		Examples:
+			set {_holo} to parent hologram of {_line}
+		Since:
+			1.0.0
+		Return type: Hologram
+		Changers:
+			none
+		Patterns:
+			[the] [parent[s]] holo[gram][s] of [holo[gram] line[s]] %hologramlines%
+			%hologramlines%'[s] [parent[s]] holo[gram][s]
+Types:
+	Hologram:
+		ID: Hologram
+		Description:
+			A HolographicDisplays hologram. Can be deleted using the `delete/clear` changer or can be reset using the `reset` changer. When you delete a hologram that is stored in a variable, the hologram object will still exist in the variable but will not be usable. You should delete the variable too in this case.
+		Since:
+			1.0.0
+		Patterns:
+			holo[gram][s]
+	Hologram Line:
+		ID: HologramLine
+		Since:
+			1.0.0
+		Patterns:
+			holo[gram][ |-]line[s]

@@ -1,0 +1,212 @@
+command vote [<text>]:
+  trigger:
+    if arg 1 is not set:
+      open virtual chest inventory with size 6 named "&8Голосования" to player
+
+      # Пустые слоты
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_empty}
+
+      set {_slots::*} to 21,22,23, 30,31,32, 39,40,41
+      format gui slot {_slots::*} of player with {_empty}
+
+      # Назад (или домой)
+      if size of {temp::%player%::return::*} > 0:
+        set {_return::*} to {temp::%player%::return::*}
+        set {_cmd} to last element of {temp::%player%::return::*}
+
+        delete {temp::%player%::return::*}
+
+        # Назад
+        set {_back} to player head named "&e◁ &fВернуться назад" with lore "", "&f &fВозвращает вас туда, где вы были буквально", "&f &fмомент назад!", "", "&7%{_cmd}%"
+        add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
+
+        format gui slot 13 of player with {_back} to run:
+          remove {_cmd} from {_return::*}
+
+          set {temp::%player%::return::*} to {_return::*}
+          execute player command "%{_cmd}%"
+      else:
+        # Домой
+        set {_home} to player head named "&e☖ &fДомой" with lore "", "&f &fКнопка, которая просто возвращает вас на главную", "&f &fстраничку сервера."
+        add "{SkullOwner:{Id:""67303f01-b659-4ce5-8706-b623a16c1db2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Y3Y2RlZWZjNmQzN2ZlY2FiNjc2YzU4NGJmNjIwODMyYWFhYzg1Mzc1ZTlmY2JmZjI3MzcyNDkyZDY5ZiJ9fX0=""}]}}}" to item-nbt of {_home}
+
+        format gui slot 13 of player with {_home} to run:
+          set {temp::%player%::return::*} to {_return::*}
+          execute player command "/menu"
+
+      # Голосование:
+      # Кик игроками
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      set {_vote::kick} to player head named "&e² &fКикнуть игрока" with lore "", "&f &fВам кажется что какой-то игрок - читер?", "&f &fКто-то обзывает ваш и вашу маму, и вам это не нравится?", "&f &fТогда попробуйте кикнуть этого игрока! Только вам", "&f &fнужно будет собрать минимум половину сервера для того,", "&f &fчто бы этого игрока кикнули!", ""
+
+      set {_vote::kick::cooldownTime} to {temp::%player%::vote::kick::cooldownTime}
+      set {_now} to now
+
+      if {_vote::kick::cooldownTime} is not set:
+        set {_vote::kick::cooldownTime} to now
+
+      if {_now} >= {_vote::kick::cooldownTime}:
+        delete {temp::%player%::vote::kick::cooldownTime}
+        set {_kick::canVote} to true
+        add "&a▷ &fНажмите, что бы выбрать игрока" to lore of {_vote::kick}
+
+        add "{SkullOwner:{Id:""28b9c4bd-ac62-43ee-a19c-eab295a73758"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWUwM2JmNTEzM2JkZTBlNmI4YzYyOTk3NTIxNWMyOGIwMDQ4MTIwYzQwZTNkNzM5MTIyYmEwOWNkMTc3OGNlYSJ9fX0=""}]}}}" to item-nbt of {_vote::kick}
+      else:
+        set {_kick::canVote} to false
+        add "&c✕ &fВы уже проголосовали" to lore of {_vote::kick}
+        add "&7 &7Ещё раз вы сможете проголосовать через:" to lore of {_vote::kick}
+
+        set {_time} to "%difference between {_vote::kick::cooldownTime} and {_now}%"
+        set {_time::string} to visualizeTime({_time})
+        add "&7 &7%{_time::string}%" to lore of {_vote::kick}
+
+        add "{SkullOwner:{Id:""c341ca56-8f92-4ddf-9aa2-8e6292bd28f1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTJhZTZlZDQ3ZGM2ZWUwMDI3OTdiMTBiYTdhMDA4ZDVjNGU0ODY1YjU4NzMwMjMxZTYxNDY3MGJiYjg5OTU5MCJ9fX0=""}]}}}" to item-nbt of {_vote::kick}
+
+      format gui slot {_slot} of player with {_vote::kick} to run:
+        add "/vote" to {_return::*}
+        set {temp::%player%::return::*} to {_return::*}
+
+        execute player command "/vote kick"
+    
+    else if arg 1 is "kick":
+      open virtual chest inventory with size 6 named "&8Выберите игрока" to player
+
+      # Пустые слоты
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_empty}
+
+      set {_slots::*} to 3,4,5
+      format gui slot {_slots::*} of player with {_empty}
+
+      # Назад (или домой)
+      if size of {temp::%player%::return::*} > 0:
+        set {_return::*} to {temp::%player%::return::*}
+        set {_cmd} to last element of {temp::%player%::return::*}
+
+        delete {temp::%player%::return::*}
+
+        # Назад
+        set {_back} to player head named "&e◁ &fВернуться назад" with lore "", "&f &fВозвращает вас туда, где вы были буквально", "&f &fмомент назад!", "", "&7%{_cmd}%"
+        add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
+
+        format gui slot 3 of player with {_back} to run:
+          remove {_cmd} from {_return::*}
+
+          set {temp::%player%::return::*} to {_return::*}
+          execute player command "%{_cmd}%"
+      else:
+        # Домой
+        set {_home} to player head named "&e☖ &fДомой" with lore "", "&f &fКнопка, которая просто возвращает вас на главную", "&f &fстраничку сервера."
+        add "{SkullOwner:{Id:""67303f01-b659-4ce5-8706-b623a16c1db2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Y3Y2RlZWZjNmQzN2ZlY2FiNjc2YzU4NGJmNjIwODMyYWFhYzg1Mzc1ZTlmY2JmZjI3MzcyNDkyZDY5ZiJ9fX0=""}]}}}" to item-nbt of {_home}
+
+        format gui slot 3 of player with {_home} to run:
+          set {temp::%player%::return::*} to {_return::*}
+          execute player command "/menu"
+
+      # Запускаем специальный воркер, который будет обновлять
+      # список игроков
+      set {_waiting} to true
+
+      while {_waiting} is true:
+        if player is offline:
+          stop
+
+        set {_update} to false
+        set {_players::*} to all players
+
+        loop {_players::*}:
+          if {_players::old::*} doesn't contain loop-value:
+            set {_update} to true
+            exit 1 loop
+
+        if {_update} is true:
+          # Обновляем...
+          set {_slot} to 9
+          set {_number} to 1
+          set {_players::old::*} to {_players::*}
+
+          loop {_players::*}:
+            # Подготавливаем предмет
+            set {_player} to loop-value
+
+            # {_player} is not player
+            loop {voteKick::list::*}:
+              if {voteKick::%loop-value-2%::target} is {_player}:
+                set {_code} to loop-value-2
+                exit 1 loop
+
+            if {_code} is set:
+              if {voteKick::%{_code}%::list::*} contains player:
+                set {_canVote} to false
+              else:
+                set {_canVote} to true
+            else:
+              set {_canVote} to true
+
+            set {_item} to {_player}'s head named "&e%getUppercaseNumber({_number})% &f%{_player}%" with lore ""
+            if {_canVote} is true:
+              add "&a△ &fНажмите, что бы начать голосование...", "&7 &7...за кик этого игрока" to lore of {_item}
+            else:
+              add "&c✕ &fВы не можете проголосовать", "&7 &7Вы уже проголосовали за этого", "&7 &7кик этого игрока." to lore of {_item}
+
+            format gui slot {_slot} of player with {_item} to run:
+              # Проверяем, есть ли хоть одно голосование на 
+              # кик этого игрока
+              loop {voteKick::list::*}:
+                if {voteKick::%loop-value-2%::target} is {_player}:
+                  add player to {voteKick::%loop-value-2%::list::*}
+                  
+                  set {_code} to loop-value-2
+                  set {_count} to size of {voteKick::%loop-value-2%::list::*}
+                  set {_countNeeded} to {voteKick::%loop-value-2%::countNeeded}
+
+                  set {_exit} to true
+                  exit 1 loop
+
+              if {_exit} is not true:
+                # Создаём новое голосование
+                set {_code} to "%random integer between 0 and 9%%random integer between 0 and 9%"
+
+                set {voteKick::%{_code}%::target} to {_player}
+                add player to {voteKick::%{_code}%::list::*}
+                set {_count} to 1
+                set {voteKick::%{_code}%::countNeeded} to round(number of all players/2)
+
+                set {_count} to 1
+                set {_countNeeded} to round(number of all players/2)
+
+                add {_code} to {voteKick::list::*}
+
+              loop all players:
+                if {authorized::%loop-player%} is true:
+                  send "&e△ &f%player% проголосовал за &eКик игрока @%{_player}%" to loop-value-2
+                  send "  &7Нужно ещё %{_countNeeded} - {_count}% &7голосов." to loop-value-2
+                  send "  &7Пропишите /vote %{_code}% что бы проголосовать." to loop-value-2
+              
+              set {_time} to now
+              add 10 minutes to {_time}
+
+              set {temp::%player%::vote::kick::cooldownTime} to {_time}
+
+              close player's inventory
+              stop
+
+            add 1 to {_number}
+            add 1 to {_slot}
+
+        # Проверяем, открыто ли текущее меню
+        # или нет
+        set {_name} to name of player's current inventory
+        if "%{_name}%" doesn't contain "Выберите":
+          stop
+
+        wait 1 second
+
+    else if arg 1 is "list":
+      # Показываем список всех открытых голосований
+
+    else:
+      # Проверяем, есть ли голосование с таким ид

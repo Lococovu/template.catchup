@@ -1,0 +1,15 @@
+{
+  "minecraft:adventure/root": {
+    "criteria": {
+      "killed_by_something": "2020-11-21 12:06:19 +0600"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:snowy_tundra": "2021-02-22 15:18:06 +0600"
+    },
+    "done": false
+  },
+  "DataVersion": 2580
+}

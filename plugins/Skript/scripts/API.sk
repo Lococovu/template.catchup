@@ -1,0 +1,209 @@
+# Web
+effect send [get] [web] request to %string% and return as %string%:
+  trigger:
+    send a request to "%expression-1%"
+    set {_response} to last http response's body
+
+    set {responses::%expression-2%::body} to {_response}
+
+effect send post [web] request to %string% ([with] body|,) %string% and return as %string%:
+  trigger:
+    send a "post" request to "%expression-1%" with the headers "Content-Type: application/json" and the body "%expression-2%"
+    set {_response} to last http response's body
+
+    set {responses::%expression-3%::body} to {_response}
+
+# Account
+function getAccountID(player: player) :: string:
+  set {_name} to {_player}'s display name
+  set {_ip} to {_player}'s ip
+
+  set {_id} to "%{_name}% at %{_ip}%" hashed with SHA-256
+  return {_id}
+
+
+function getNumber(number: number) :: string:
+  set {_string} to "%{_number}%"
+  
+  set {_number::0} to "⓪"
+  set {_number::1} to "①"
+  set {_number::2} to "②"
+  set {_number::3} to "③"
+  set {_number::4} to "④"
+  set {_number::5} to "⑤"
+  set {_number::6} to "⑥"
+  set {_number::7} to "⑦"
+  set {_number::8} to "⑧"
+  set {_number::9} to "⑨"
+
+  set {_temp::*} to {_number} split at ""
+  loop {_temp::*}:
+    replace all "%loop-value%" in {_string} with {_number::%loop-value%}
+
+  return {_string}
+
+function getUppercaseNumber(number: number) :: string:
+  set {_string} to "%{_number}%"
+  
+  set {_number::0} to "⁰"
+  set {_number::1} to "¹"
+  set {_number::2} to "²"
+  set {_number::3} to "³"
+  set {_number::4} to "⁴"
+  set {_number::5} to "⁵"
+  set {_number::6} to "⁶"
+  set {_number::7} to "⁷"
+  set {_number::8} to "⁸"
+  set {_number::9} to "⁹"
+
+  set {_temp::*} to {_number} split at ""
+  loop {_temp::*}:
+    replace all "%loop-value%" in {_string} with {_number::%loop-value%}
+
+  return {_string}
+
+function visualizeTime(time: string) :: string:
+  set {_string} to {_time}
+  replace all " and " in {_string} with " "
+
+  set {_temp::*} to {_string} split at " "
+  loop {_temp::*}:
+    if loop-value contains ".":
+      set {_t::*} to loop-value split at "."
+      replace all ".%{_t::2}%" in {_string} with ""
+
+  replace all "minutes", "minute" in {_string} with "м"
+  replace all "seconds", "second" in {_string} with "с"
+
+  return {_string}
+
+# Notification
+function sendNotification(player: player, text: string, time: number):
+  set {_random} to random integer between 000 and 999
+  
+  set {_notification} to skellett new bossbar
+
+  skellett add {_player} to the bossbar {_notification}
+  skellett show bossbar {_notification}
+
+  set skellett colour of bossbar {_notification} to WHITE
+  # set skellett style of bossbar {_notification} to SEGMENTED_6
+  
+  play sound "block.brewing_stand.brew" with pitch 2 at {_player} for {_player}
+
+  set {_waiting} to true
+
+  # set {_cooldown} to now
+  # add 45 seconds to {_cooldown}
+  # set {notifications::%{_player}%::cooldown} to convert date {_cooldown} to unix date
+            
+  while {_waiting} is true:
+    if {_player} is offline:
+      stop
+
+    if {_time} <= 0:
+      skellett hide bossbar {_notification} 
+      stop
+    
+    if {_time} <= {_time}/2:
+      if {_time} <= {_time}/3:
+        set skellett colour of bossbar {_notification} to RED      
+      else:
+        set skellett colour of bossbar {_notification} to YELLOW
+    set skellett title of bossbar {_notification} to {_text}
+    set skellett progress of bossbar {_notification} to {_time}/6
+    
+    reduce {_time} by 0.05
+    wait 1 tick
+
+# Location
+function getLocation(location: text, world: text) :: location:
+  # Создаём позицию.
+  replace all " " in {_locations::prep} with ""
+  set {_locations::prep::*} to {_location} split at ","
+
+  set {_locations::x} to {_locations::prep::1}
+  set {_locations::y} to {_locations::prep::2}
+  set {_locations::z} to {_locations::prep::3}
+
+  evaluate logging errors in {_errors::*}:
+    set {_location} to location at %{_locations::x}%, %{_locations::y}%, %{_locations::z}% in world "%{_world}%"
+
+  if {_errors::*} is not set:
+  # Отправляем позицию
+    return {_location}
+  else:
+    stop
+
+function StartViewWorker(player: player):
+  # Сначала давайте выключим предыдущий воркер
+  set {workers::%{_player}%::viewWorker} to "stop"
+
+  wait 2 ticks
+  delete {workers::%{_player}%::viewWorker}
+
+  # А теперь давайте создадим воркер, который
+  # будет делать эту проверку.
+  set {_current} to false
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      # Удаляем всю инфу про воркер
+      delete {workers::%{_player}%::viewWorker::*}
+      stop
+
+    # Проверяем переменные
+    if {workers::%{_player}%::viewWorker} is not set:
+      set {workers::%{_player}%::viewWorker} to true
+    else:
+      set {_action} to {workers::%{_player}%::viewWorker}
+      if {_action} is "stop":
+        delete {workers::%{_player}%::viewWorker::*}
+        stop
+
+    # Берём текущую позицию игрока и блок
+    # на дистанции два блока от игрока
+    set {_target} to block infront of {_player}
+
+    loop all blocks in radius 3 around {_target}:
+      set {_loc} to location of loop-block
+
+      if {workers::%{_player}%::viewWorker::block::%{_loc}%::type} is set:
+        set {_current} to {_loc}
+        set {workers::%{_player}%::viewWorker::currentBlock} to {_loc}
+
+        # Подготавливаем информацию про этот
+        # объект
+        set {_function::create} to {workers::%{_player}%::viewWorker::block::%{_loc}%::hoverAction}
+        
+        # И теперь давайте вызовем функцию hover
+        evaluate:
+          %{_function::create}%({_player}, {_loc})
+
+    # Проверяем локацию текущего блока
+    # (если текущий установленный блок находится на расстоянии
+    # более двух блоков от {_location::end}, то мы его убираем)
+    if {_current} is not false:
+      if distance between {_current} and {_target} >= 3.5:
+        set {_current} to false
+
+    if {workers::%{_player}%::viewWorker::currentBlock} is not {_current}:
+      set {workers::%{_player}%::viewWorker::currentBlock} to {_current}
+    
+    wait 1 tick
+
+# 
+# Прослушиваем все клики на голограммы
+# 
+on hologram click:
+  set {_player} to event-player
+  set {_location} to location of event-hologram
+
+  loop all blocks in radius 1.5 around {_location}:
+    set {_loc} to location of loop-block
+    if {workers::%{_player}%::viewWorker::block::%{_loc}%::type} is set:
+      set {_function::click} to {workers::%{_player}%::viewWorker::block::%{_loc}%::clickAction}
+        
+      evaluate:
+        %{_function::click}%({_player})

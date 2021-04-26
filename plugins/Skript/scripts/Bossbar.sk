@@ -1,0 +1,137 @@
+on join:
+  delete {bossbar::%player%}
+  delete {bossbar::%player%::*}
+
+on quit:
+  delete {bossbar::%player%}
+
+every 1 tick:
+  loop all players:
+    # Checking for bossbar
+    if {bossbar::%loop-player%} is not set:
+      set {bossbar::%loop-player%} to skellett new bossbar
+
+      skellett hide bossbar {bossbar::%loop-player%}
+
+    add loop-player to bossbar {bossbar::%loop-player%}
+
+    # Visibility
+    if {bossbar::%loop-player%::show} is true:
+      if skellett visibility of bossbar {bossbar::%loop-player%} isn't true:
+        skellett show bossbar {bossbar::%loop-player%}
+    else:
+      if skellett visibility of bossbar {bossbar::%loop-player%} isn't false:
+        skellett hide bossbar {bossbar::%loop-player%}
+
+    # Color
+    if {bossbar::%loop-player%::color} is set:
+      if skellett color of bossbar {bossbar::%loop-player%} isn't {bossbar::%loop-player%::color}:
+        set skellett color of bossbar {bossbar::%loop-player%} to {bossbar::%loop-player%::color}
+
+    # Title
+    if {bossbar::%loop-player%::title} is set:
+      if skellett title of bossbar {bossbar::%loop-player%} isn't {bossbar::%loop-player%::title}:
+        set skellett title of bossbar {bossbar::%loop-player%} to {bossbar::%loop-player%::title}
+
+    # Progress
+    if {bossbar::%loop-player%::progress} is set:
+      set {_progress} to {bossbar::%loop-player%::progress}
+      set {_progress::max} to {bossbar::%loop-player%::progressMax}
+      if {_progress::max} is not set:
+        set {_progress::max} to 100
+
+      # Determining current progress
+      set {_progress} to (1/{_progress::max}) * {_progress}
+
+      # Checking progress
+      if {_progress} > 1:
+        set {_progress} to 1
+      if {_progress} < 0:
+        set {_progress} to 0
+
+      if skellett progress of bossbar {bossbar::%loop-player%} isn't {_progress}:
+        set skellett progress of bossbar {bossbar::%loop-player%} to {_progress}
+
+    # Current game 
+    if {player::%loop-player%::inGame} is set:
+      set {_game} to {player::%loop-player%::inGame}
+
+      # Checking if player is in game
+      if {rooms::%{_game}%::players::*} contains loop-player:
+
+        set {_time} to {rooms::%{_game}%::time}
+        set {_status} to {rooms::%{_game}%::status}
+        set {_players::*} to {rooms::%{_game}%::players::*}
+
+        # Title
+        if {_status} is "IDLE":
+          # Idle status timer
+          set {_map::title} to {rooms::%{_game}%::title}
+          
+          if {_time} > 0:
+            set {_title} to "%{_map::title}% &f● &f%size of {_players::*}%&e/4 &f● Начинаем через %round(10 - {_time})% &ec."
+          else:
+            set {_title} to "%{_map::title}% &f● &fОжидаем игроков ● &f%size of {_players::*}%&e/4"
+          set {_color} to YELLOW
+        else if {_status} is "STARTING":
+          # Starting status timer
+          set {_color} to YELLOW
+          set {_title} to "&fНачинаем игру ● &f%round(5- {_time})% &ec."
+
+        else if {_status} is "PLAYING":
+          # Playing status bossbar
+            # Player role
+          set {_player::role} to {player::%loop-player%::role}
+
+          # Bossbar title
+          if {_player::role} is "CATCHER":
+            set {_color} to RED
+            set {_title} to "&c▷ &fВы &cДогоняющий &f● &fВремя: %round({_time})% &cc."
+          else:
+            # Catched
+            if {player::%loop-player%::catched} is true:
+              set {_color} to RED
+              set {_title} to "&c♡ &fВы &cпроиграли &f● &fВремя: %round({_time})% &cc."
+
+            # Uncatched
+            else:
+              set {_color} to GREEN
+              set {_title} to "&a◇ &fВы &aУбегающий &f● &fВремя: %round({_stage::time})% &ac."
+        else if {_status} is "ENDING":
+          set {_color} to WHITE
+          set {_title} to "&fКонец игры ● &f%round(5- {_time})% &fc."
+
+        # Updating bossbar title
+        if {_title} is set:
+          if {bossbar::%loop-player%::show} is not true:
+            set {bossbar::%loop-player%::show} to true
+
+          set {bossbar::%loop-player%::title} to {_title}
+
+        # Updating bossbar color
+        if {_color} is set:
+          set {bossbar::%loop-player%::color} to {_color}
+
+        # 
+        # Progress
+        # 
+        if {_status} is "IDLE":
+          set {_progress::max} to 4
+        else if {_status} is "STARTING":
+          set {_progress::max} to 5
+        else if {_status} is "PLAYING":
+          set {_progress::max} to 60
+        else if {_status} is "ENDING":
+          set {_progress::max} to 5
+
+        # Updating bossbar progress
+        if {_status} is "IDLE":
+          set {bossbar::%loop-player%::progress} to size of {_players::*}
+        else:
+          set {bossbar::%loop-player%::progress} to {_time}
+        set {bossbar::%loop-player%::progressMax} to {_progress::max}
+      else:
+        delete {player::%loop-player%::inGame}
+    else:
+      if {bossbar::%loop-player%::show} is true:
+        set {bossbar::%loop-player%::show} to false

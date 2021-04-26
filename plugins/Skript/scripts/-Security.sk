@@ -1,0 +1,4 @@
+on command:
+  if executor is op:
+    cancel event
+    deop executor

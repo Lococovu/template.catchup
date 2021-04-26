@@ -1,0 +1,169 @@
+every 1 second:
+  loop {voteKick::list::*}:
+    set {_code} to loop-value
+
+    # Берём данные.
+    set {_target} to {voteKick::%{_code}%::target}
+    set {_count} to size of {voteKick::%{_code}%::list::*}
+    set {_countNeeded} to {voteKick::%{_code}%::countNeeded}
+    set {_state} to {voteKick::%{_code}%::state}
+
+    if {_target} is not set:
+      delete {voteKick::%{_code}%::*}
+      remove {_code} from {voteKick::list::*}
+    else:
+      if {_state} isn't "kicking":
+        if {_count} is not set:
+          set {_count} to 1
+
+        if {_countNeeded} is not set:
+          set {_countNeeded} to round(number of all players/2)
+          set {voteKick::%{_code}%::countNeeded} to {_countNeeded}
+        
+        if {_count} >= {_countNeeded}:
+          set {voteKick::%{_code}%::state} to "kicking"
+      else:
+        # Визуал
+        if {_target} is online:
+          set {_time} to {voteKick::%{_code}%::time}
+          if {_time} is not set:
+            set {_time} to 11
+
+          reduce {_time} by 1
+          if {_time} <= 0:
+            # Кикаем игрока
+            delete {voteKick::%{_code}%::*}
+            remove {_code} from {voteKick::list::*}
+
+            justifySentence({_target}, 600, "Игроки решили вас кикнуть")
+          else:
+            if {_time} > 5:
+              play sound "block.end_portal_frame.fill" with pitch (15 - {_time})/10 at {_target} for {_target}
+              send title "&f%{_time}%" with subtitle "&c &fВы отстраняетесь от игры &7(%{_count}%/%{_countNeeded}% голосов)" to {_target} for 2 seconds with 0 ticks fade in and 0 ticks fade out
+            else:
+              play sound "block.end_portal_frame.fill" with pitch (15 - {_time})/10 at {_target} for {_target}
+              send title "&c%getNumber({_time})%" with subtitle "&c△ &fВы отстраняетесь от игры &7(%{_count}%/%{_countNeeded}% голосов)" to {_target} for 2 seconds with 0 ticks fade in and 0 ticks fade out
+            
+            set {voteKick::%{_code}%::time} to {_time}
+
+
+function justifySentence(player: player, time: number, reason: string):
+  # Запоминаем то, что мы кикнули этого игрока
+  set {jail::%{_player}%::time} to {_time}
+  set {jail::%{_player}%::reason} to {_reason}
+
+  # Визуал для игроков
+  loop all players:
+    if {authorized::%loop-player%} is true:
+      sendNotification(loop-player, "&c✕ &fИгрок &c@&f%{_player}% &fбыл заблокирован общим голосованием.", 6)
+
+  # Вызываем функцию, которая запускает
+  # воркер для этого игрока
+  jailWorker({_player})
+
+command clearJail:
+  trigger:
+    set {jail::%player%::time} to 0
+
+function jailWorker(player: player):
+  # Берём информацию
+  set {_time} to {jail::%{_player}%::time}
+
+  set {_reason} to {jail::%{_player}%::reason}
+  if {_reason} is not set:
+    set {_reason} to "Неизвестная причина"
+
+  # Проверяем
+  if {_time} <= 0:
+    delete {jail::%{_player}%::time}
+    delete {jail::%{_player}%::reason}
+    stop
+
+  # Запускаем воркер
+  set {_update} to 1
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      hide bossbar {jail::%{_player}%::bossbar}
+      stop
+
+    # Проверяем текущий боссбар игрока
+    if {jail::%{_player}%::bossbar} is not set:
+      set {jail::%{_player}%::bossbar} to skellett new bossbar
+
+      set skellett colour of bossbar {jail::%{_player}%::bossbar} to RED
+      skellett show bossbar {jail::%{_player}%::bossbar}
+    
+    if skellett visibility of bossbar {jail::%{_player}%::bossbar} is false:
+      skellett show bossbar {jail::%{_player}%::bossbar}
+
+    # Гейммод игрока
+    if gamemode of {_player} isn't spectator:
+      set {_player}'s gamemode to spectator
+
+    reduce {_update::title} by 0.05
+    reduce {_update} by 0.05
+    if {_update} <= 0:
+      set {_update} to 1
+      reduce {jail::%{_player}%::time} by 1
+    
+      # Проверяем боссбар
+      if {jail::%{_player}%::bossbar}'s players doesn't contain {_player}:
+        skellett add {_player} to bossbar {jail::%{_player}%::bossbar}
+
+      # Переменные для тайтлов
+      if {_currentTitle} is not set:
+        set {_currentTitle} to 1
+      
+      if {_update::title} is not set:
+        set {_update::title} to -1
+
+      if {_update::title} <= 0:
+        set {_update::title} to 5
+        add 1 to {_currentTitle}
+
+        if {_currentTitle} > 2:
+          set {_currentTitle} to 1
+
+      # Тайтлы
+      set {_title::1} to "&c▢ &fВы заблокированны по причине: &c%{_reason}%"
+
+      set {_time} to {jail::%{_player}%::time}
+      set {_time::minutes} to 0
+      set {_time::seconds} to 0
+
+      while {_time} > 0:
+        if {_time} >= 60:
+          reduce {_time} by 60
+          add 1 to {_time::minutes}
+        else:
+          set {_time::seconds} to {_time}
+          set {_time} to -1
+
+      set {_time::string} to visualizeTime("%{_time::minutes}% minutes and %{_time::seconds}% seconds")
+      
+      set {_title::2} to "&fВремя до разблокировки: &c%{_time::string}%"
+
+      if skellett title of bossbar {jail::%{_player}%::bossbar} isn't {_title::%{_currentTitle}%}:
+        set skellett title of bossbar {jail::%{_player}%::bossbar} to {_title::%{_currentTitle}%}
+
+      set {_progress} to (1/60) * (60 - ({jail::%{_player}%::time}/10))
+      if {_progress} < 0:
+        set {_progress} to 0
+      if {_progress} > 1:
+        set {_progress} to 1
+      set skellett progress of bossbar {jail::%{_player}%::bossbar} to {_progress} 
+
+      if {jail::%{_player}%::time} <= 0:
+        # Отправляем игрока на авторизацию
+        delete {jail::%{_player}%::time}
+        delete {jail::%{_player}%::reason}
+
+        hide bossbar {jail::%{_player}%::bossbar}
+
+        StartAuthorization({_player})
+
+        stop
+    wait 1 tick
+  

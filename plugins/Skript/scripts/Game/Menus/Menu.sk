@@ -1,0 +1,45 @@
+command menu:
+  trigger:
+    open virtual chest inventory with size 5 named "&8Меню" to player
+
+    # Пустые слоты
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_empty}
+
+    set {_slots::*} to 11,12,13, 20,21,22, 29,30,31
+    format gui slot {_slots::*} of player with {_empty}
+
+    # Голосования
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+    
+    set {_vote} to player head named "&9△ &fГолосования" with lore "", "&f &fНадоела карта? Проголосуйте за то, что бы", "&f &fеё пропустили? Вы всем сервером думаете, что тут", "&f &fесть читер, но Администрация слепая или спит? Вы так же", "&f &fможете проголосовать за то, что бы кикнуть игрока с сервера!", "", "&f &fВсё в ваших руках, дорогие игроки! Главное", "&f &fне переусердствуйте", "", "&a▷ &fНажмите, что бы перейти" 
+    add "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}" to item-nbt of {_vote}
+
+    format gui slot {_slot} of player with {_vote} to run:
+      add "/menu" to {temp::%player%::return::*}
+      execute player command "/vote"
+
+    # Найстроки
+    # set {_slot} to first element of {_slots::*}
+    # remove {_slot} from {_slots::*}
+
+    # set {_settings} to player head named "&9✎ &fНастройки" with lore "", "&f &fНе нравится расположение вещей в вашем инвентаре?", "&f &fНе нравятся постоянные уведомления, бесят звуки? Тогда", "&f &fвам сюда! Именно тут вы сможете всё это настроить под", "&f &fсебя любимого.", "", "&a▷ &fНажмите, что бы перейти"
+    # add "{SkullOwner:{Id:""a36e6694-fa87-48d2-abdb-62eaf2b6711d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWY0YzIxZDE3YWQ2MzYzODdlYTNjNzM2YmZmNmFkZTg5NzMxN2UxMzc0Y2Q1ZDliMWMxNWU2ZTg5NTM0MzIifX19""}]}}}" to item-nbt of {_settings}
+
+    # format gui slot {_slot} of player with {_settings} to run:
+    #   add "/menu" to {temp::%player%::return::*}
+    #   execute player command "/settings"
+
+    # Правое меню
+    # Аккаунт
+    set {_account} to player head named "&e☺ &fАккаунт &7(В разработке)" with lore "", "&f &fХотите зарабывать игровую валюту, что бы потом", "&f &fтратить её на всякие бонусы от Lococovu? Тогда вам", "&f &fпора авторизовываться в ваш аккаунт! Вы будете получать", "&f &fигровую валюту за убийства, время игры, киллстрики и подобное!", "", "&f &fИгровая валюта и ваш инвентарь всегда сохраняется на наших", "&f &fсерверах в безопасности. Так что не беспокойтесь за свои", "&f &fмонетки!", "", "&c⚠ &fВ разработке", "&7lococovu.me"
+    add "{SkullOwner:{Id:""1a05c861-6111-4a6e-8d5d-05121a421868"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTViNTdkZWY5MTVhNTYwYWI0YWQ2NTllYTQxZTEzZmM4MTcyMWQzMGEwMTk1NWQ5NGM5Y2UxMzg3NjNhNjQifX19""}]}}}" to item-nbt of {_account}
+    
+    format gui slot 15 of player with {_account}
+    
+    # Дискорд
+    set {_discord} to player head named "&9✉ &fНаш Дискорд &7(discord.lococovu.me)" with lore "", "&f &fХотите пообщаться с нашими игроками или с нашей", "&f &fАдминистрацией, Разработчиками? Тогда вам уж точно сюда!", "&f &fЗаходите в наш Дискорд канал и начинайте общаться со всеми", "&f &fигроками проекта!", "", "&f &fУзнавайте первыми про новые обновления,", "&f &fприсылайте нам свои идеи и решайте сюдьбу проекта!", "", "&7discord.&flococovu.me"
+    add "{SkullOwner:{Id:""de431cd1-ae1d-49f6-9339-a96daeacc32b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg3M2MxMmJmZmI1MjUxYTBiODhkNWFlNzVjNzI0N2NiMzlhNzVmZjFhODFjYmU0YzhhMzliMzExZGRlZGEifX19""}]}}}" to item-nbt of {_discord}
+    
+    format gui slot 24 of player with {_discord}

@@ -1,0 +1,19 @@
+.console_history
+logs
+commands.yml
+banned-ips.json
+banned-players.json
+ops.json
+help.yml
+permissions.yml
+usercache.json
+version_history.json
+whitelist.json
+
+# Server-related plugins
+/plugins/bStats
+/plugins/MundoSk
+/plugins/ProtocolLib
+/plugins/SkBee
+/plugins/Skellett
+/plugins/skript-reflect

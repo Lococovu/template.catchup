@@ -1,0 +1,14 @@
+Effects:
+	EffJSONToVariable:
+		ID: EffJSONToVariable
+		Patterns:
+			(map|copy) [the] json [(of|from)] %string% to [the] [var[iable]] %objects%
+Expressions:
+	ExprJSONToString:
+		ID: ExprJSONToString
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] [serialized] json (form|representation) of %objects%
+			%objects%'[s] [serialized] json (form|representation)

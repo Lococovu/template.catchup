@@ -1,0 +1,496 @@
+on script load:
+  delete {rooms::*}
+
+  # Room #1
+  set {_id} to "room1"
+
+  set {_spawns::1} to getLocation("-106.5, 11, -16.5", "1")
+  set yaw of {_spawns::1} to 90
+
+  set {_spawns::2} to getLocation("-106.5, 9, -7.5", "1")
+  set yaw of {_spawns::2} to 90
+  
+  set {_spawns::3} to getLocation("-106.5, 9, -25.5", "1")
+  set yaw of {_spawns::3} to 90
+
+  set {_spawns::4} to getLocation("-142.5, 8, -16.5", "1")
+  set yaw of {_spawns::4} to -90
+
+  set {rooms::%{_id}%::spawns::runners::*} to {_spawns::1}, {_spawns::2} and {_spawns::3}
+  set {rooms::%{_id}%::spawns::catcher} to {_spawns::4}
+
+  set {rooms::%{_id}%::title} to "Базар"
+  set {rooms::%{_id}%::icon} to "{SkullOwner:{Id:""8df67171-1b9a-4eae-b35d-b03a56f8dacb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2UzZGViNTdlYWEyZjRkNDAzYWQ1NzI4M2NlOGI0MTgwNWVlNWI2ZGU5MTJlZTJiNGVhNzM2YTlkMWY0NjVhNyJ9fX0=""}]}}}"
+
+
+  # Room #2
+  set {_id} to "room2"
+
+  set {_spawns::1} to getLocation("4.5, 38, -10.5", "2")
+  set yaw of {_spawns::1} to 90
+
+  set {_spawns::2} to getLocation("4.5, 38, 0.5", "2")
+  set yaw of {_spawns::2} to 90
+
+  set {_spawns::3} to getLocation("4.5, 36, 10.5", "2")
+  set yaw of {_spawns::3} to 90
+
+  set {_spawns::4} to getLocation("-33.5, 37, 0.5", "2")
+  set yaw of {_spawns::4} to -90
+
+  set {rooms::%{_id}%::spawns::runners::*} to {_spawns::1}, {_spawns::2}, {_spawns::3}
+  set {rooms::%{_id}%::spawns::catcher} to {_spawns::4}
+
+  set {rooms::%{_id}%::title} to "Город"
+  set {rooms::%{_id}%::icon} to "{SkullOwner:{Id:""66203b35-31b7-4cd3-bcbb-91f953d180cc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI1YjI3Y2U2MmNhODg3NDM4NDBhOTVkMWMzOTg2OGY0M2NhNjA2OTZhODRmNTY0ZmJkN2RkYTI1OWJlMDBmZSJ9fX0=""}]}}}"
+
+
+  # Room #3
+  set {_id} to "room3"
+
+  set {_spawns::1} to getLocation("-106.5, 11, -16.5", "3")
+  set yaw of {_spawns::1} to 90
+
+  set {_spawns::2} to getLocation("-106.5, 9, -7.5", "3")
+  set yaw of {_spawns::2} to 90
+  
+  set {_spawns::3} to getLocation("-106.5, 9, -25.5", "3")
+  set yaw of {_spawns::3} to 90
+
+  set {_spawns::4} to getLocation("-142.5, 8, -16.5", "3")
+  set yaw of {_spawns::4} to -90
+
+  set {rooms::%{_id}%::spawns::runners::*} to {_spawns::1}, {_spawns::2} and {_spawns::3}
+  set {rooms::%{_id}%::spawns::catcher} to {_spawns::4}
+
+  set {rooms::%{_id}%::title} to "Базар ##2"
+  set {rooms::%{_id}%::icon} to "{SkullOwner:{Id:""8df67171-1b9a-4eae-b35d-b03a56f8dacb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2UzZGViNTdlYWEyZjRkNDAzYWQ1NzI4M2NlOGI0MTgwNWVlNWI2ZGU5MTJlZTJiNGVhNzM2YTlkMWY0NjVhNyJ9fX0=""}]}}}"
+
+  # Room #4
+  set {_id} to "room4"
+
+  set {_spawns::1} to getLocation("4.5, 38, -10.5", "4")
+  set yaw of {_spawns::1} to 90
+
+  set {_spawns::2} to getLocation("4.5, 38, 0.5", "4")
+  set yaw of {_spawns::2} to 90
+
+  set {_spawns::3} to getLocation("4.5, 36, 10.5", "4")
+  set yaw of {_spawns::3} to 90
+
+  set {_spawns::4} to getLocation("-33.5, 37, 0.5", "4")
+  set yaw of {_spawns::4} to -90
+
+  set {rooms::%{_id}%::spawns::runners::*} to {_spawns::1}, {_spawns::2}, {_spawns::3}
+  set {rooms::%{_id}%::spawns::catcher} to {_spawns::4}
+
+  set {rooms::%{_id}%::title} to "Город ##2"
+  set {rooms::%{_id}%::icon} to "{SkullOwner:{Id:""66203b35-31b7-4cd3-bcbb-91f953d180cc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI1YjI3Y2U2MmNhODg3NDM4NDBhOTVkMWMzOTg2OGY0M2NhNjA2OTZhODRmNTY0ZmJkN2RkYTI1OWJlMDBmZSJ9fX0=""}]}}}"
+  
+  
+  # Room #5
+  set {_id} to "room5"
+
+  set {_spawns::1} to getLocation("20.5, 42, -10.5", "5")
+  set yaw of {_spawns::1} to 90
+
+  set {_spawns::2} to getLocation("20.5, 42, -0.5", "5")
+  set yaw of {_spawns::2} to 90
+
+  set {_spawns::3} to getLocation("20.5, 44, 10.5", "5")
+  set yaw of {_spawns::3} to 90
+
+  set {_spawns::4} to getLocation("-17.5, 41, 0.5", "5")
+  set yaw of {_spawns::4} to -90
+
+  set {rooms::%{_id}%::spawns::runners::*} to {_spawns::1}, {_spawns::2}, {_spawns::3}
+  set {rooms::%{_id}%::spawns::catcher} to {_spawns::4}
+
+  set {rooms::%{_id}%::title} to "Зима"
+  set {rooms::%{_id}%::icon} to "{SkullOwner:{Id:""7a419c21-9074-43b7-a443-df76fd56a2c6"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDNjNTJlYWU3NDdjYWQ1YjRmZDE5YjFhMjNiMzlhMzM2YjYyZWQ0MjI3OTdhNjIyZDA0NWY0M2U1ZDM4In19fQ==""}]}}}"
+
+
+  # Room #5
+  set {_id} to "room6"
+
+  set {_spawns::1} to getLocation("20.5, 42, -10.5", "5")
+  set yaw of {_spawns::1} to 90
+
+  set {_spawns::2} to getLocation("20.5, 42, -0.5", "5")
+  set yaw of {_spawns::2} to 90
+
+  set {_spawns::3} to getLocation("20.5, 44, 10.5", "5")
+  set yaw of {_spawns::3} to 90
+
+  set {_spawns::4} to getLocation("-17.5, 41, 0.5", "5")
+  set yaw of {_spawns::4} to -90
+
+  set {rooms::%{_id}%::spawns::runners::*} to {_spawns::1}, {_spawns::2}, {_spawns::3}
+  set {rooms::%{_id}%::spawns::catcher} to {_spawns::4}
+
+  set {rooms::%{_id}%::title} to "Зима ##2"
+  set {rooms::%{_id}%::icon} to "{SkullOwner:{Id:""7a419c21-9074-43b7-a443-df76fd56a2c6"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDNjNTJlYWU3NDdjYWQ1YjRmZDE5YjFhMjNiMzlhMzM2YjYyZWQ0MjI3OTdhNjIyZDA0NWY0M2U1ZDM4In19fQ==""}]}}}"
+
+
+  add "room1" to {rooms::*}
+  add "room3" to {rooms::*}
+  add "room2" to {rooms::*}
+  add "room4" to {rooms::*}
+  add "room5" to {rooms::*}
+  add "room6" to {rooms::*}
+
+  # Room workers
+  set {rooms::system::restarted} to true
+
+  wait 5 seconds
+  delete {rooms::system::restarted}
+  
+  loop {rooms::*}:
+    broadcast "&aroom &fStarted worker %loop-value%"
+    roomWorker(loop-value)
+
+function assignToRoom(player: player, roomId: string):
+  # Getting room information
+  set {_players::*} to {rooms::%{_roomId}%::players::*}
+  set {_queueId} to {workers::%{_player}%::queue}
+
+  # Reassign process
+  if {player::%{_player}%::inGame} is set:
+    set {_room::id} to {player::%{_player}%::inGame}
+    delete {player::%{_player}%::inGame}
+
+    # Checking game states
+    set {_status::from} to {rooms::%{_room::id}%::status}
+    if {_status::from} is not set:
+      set {_status::from} to "IDLE"
+
+    set {_status::to} to {rooms::%{_roomId}%::status}
+    if {_status::to} is not set:
+      set {_status::to} to "IDLE"
+
+    # Removing player from old game
+    if {_status::from} and {_status::to} is "IDLE":
+      loop {player::%{_player}%::games::*}:
+        remove {_player} from {rooms::%loop-value%::players::*}
+        
+      delete {player::%{_player}%::games::*}
+      wait 2 ticks
+
+  # Assign process
+  set {_status} to {rooms::%{_roomId}%::status}
+  if {_status} is not set:
+    set {_status} to "IDLE"
+
+  if {_status} is "IDLE":
+    if size of {_players::*} < 4:
+      if {_players::*} doesn't contain {_player}:
+        set {queue::id::%{_queueId}%::status} to "PICKED"
+        
+        # Assigning player to this room
+        add {_player} to {rooms::%{_roomId}%::players::*}
+
+# IDLE
+# STARTING
+# PLAYING
+# ENDING
+
+# command addGlass:
+#   trigger:
+#     set {_id} to "room6"
+
+#     set {_location} to location of target block
+#     set block at {_location} to air
+
+#     add {_location} to {barrier::%{_id}%::*}
+#     broadcast "%{barrier::%{_id}%::*}%"
+
+function roomWorker(id: string):
+  set {_status} to "IDLE"
+
+  set {_working} to true
+  while {_working} is true:
+    if {rooms::system::restarted} is true:
+      broadcast "&croom &fSTOP ROOM WORKER"
+      stop
+
+    if {_stop} is true:
+      # Sending all players back to lobby
+      loop {rooms::%{_id}%::players::*}:
+        set {_bossbar} to {bossbar::%loop-value%}
+
+        if {_bossbar} is set:
+          evaluate:
+            skellett hide bossbar {_bossbar}
+
+        PlayerEntry(loop-value, true)
+
+      # Keeping only spawns info
+      delete {rooms::%{_id}%::restore::*}
+      delete {rooms::%{_id}%::players::*}
+      delete {rooms::%{_id}%::player::*}
+      delete {rooms::%{_id}%::time}
+      
+      delete {_players::*}
+      delete {_stage::*}
+      delete {_stage::start}
+      delete {_stage::starting}
+      delete {_stage::time}
+
+      set {_status} to "IDLE"
+      set {_stop} to false
+
+    # Worker variable
+    if {workers::room::%{_id}%} is not set:
+      set {workers::room::%{_id}%} to true
+
+    # Checking players
+    loop {rooms::%{_id}%::players::*}:
+      if loop-value is offline:
+        remove loop-value from {rooms::%{_id}%::players::*}
+      else:
+        # Checking player's location
+        if {_status} isn't "IDLE":
+          if "%region at loop-value%" doesn't contain {_id}:
+            if loop-value isn't {rooms::%{_id}%::catcher}:
+              set {_location} to random element of {_locations::*}
+              remove {_location} from {_locations::*}
+            else:
+              set {_location} to {rooms::%{_id}%::spawns::catcher}
+            
+            set {rooms::%{_id}%::player::%loop-value%::location} to {_location}
+            teleport loop-value to {_location}
+
+      if {player::%loop-value%::inGame} isn't {_id}:
+        set {player::%loop-value%::inGame} to {_id}
+
+      if {player::%loop-value%::games::*} doesn't contain {_id}:
+        add {_id} to {player::%loop-value%::games::*}
+
+      if size of {player::%loop-value%::games::*} >= 2:
+        loop {player::%loop-value%::games::*}:
+          remove loop-value-1 from {rooms::%loop-value-2%::players::*}
+        
+        delete {player::%loop-value%::games::*}
+        sendNotification(loop-value, "&c⚠ &fПроизошла ошибка. Вы были выкинуты с всех игр. Попробуйте ещё раз.", 6)
+
+    delete {_players::*}
+    set {_players::*} to {rooms::%{_id}%::players::*}
+    # Status-dependant actions
+    if {_status} is "IDLE":
+      # Next stage
+      if size of {_players::*} >= 2:
+        set {_stage::start} to true
+
+        if {_stage::time} >= 10:
+          # Next stage
+          delete {_stage::starting}
+          set {_status} to "STARTING"
+
+      if size of {_players::*} is 4:
+        # Next stage
+        delete {_stage::starting}
+        set {_status} to "STARTING"
+
+      if size of {_players::*} < 2:
+        if {_stage::start} is set:
+          set {_stage::start} to false
+          set {_stage::time} to 0
+
+      if {_stage::start} is set:
+        if size of {_players::*} >= 2:
+          add 0.05 to {_stage::time}
+
+    else if {_status} is "STARTING":
+      set {_players::*} to {rooms::%{_id}%::players::*}
+    
+      # Picking up roles
+      if {_stage::starting} is not set:
+        set {_stage::time} to 0
+        set {_stage::starting} to true
+
+        # Fixing glass
+        loop {barrier::%{_id}%::*}:
+          set {_block} to "light gray glass" parsed as item
+
+          set block at loop-value to {_block}
+
+        set {_catcher} to random element of {_players::*}
+        set {rooms::%{_id}%::catcher} to {_catcher}
+
+        set {_locations::*} to {rooms::%{_id}%::spawns::runners::*}
+        loop {_players::*}:
+          clear loop-value's inventory
+
+          if loop-value isn't {_catcher}:
+            set {_location} to random element of {_locations::*}
+            remove {_location} from {_locations::*}
+          else:
+            set {_location} to {rooms::%{_id}%::spawns::catcher}
+            
+          set {rooms::%{_id}%::player::%loop-value%::location} to {_location}
+          teleport loop-value to {_location}
+
+          # Visual
+          if "%loop-value%" is "%{_catcher}%":
+            send title "&c▷ &fВы &cДогоняющий" with subtitle "&fВаша задача - всех поймать" to loop-value for 4 seconds with 0 ticks fade in and 1 seconds fade out
+          else:
+            send title "&a◇ &fВы &aУбегающий" with subtitle "&fВаша задача - убегать от Догоняющего" to loop-value for 4 seconds with 0 ticks fade in and 1 seconds fade out
+
+      if {_stage::time} >= 5:
+        delete {_stage::playing}
+        set {_status} to "PLAYING"
+
+        loop {barrier::%{_id}%::*}:
+          break block at loop-value naturally
+
+      add 0.05 to {_stage::time}
+
+    else if {_status} is "PLAYING":
+      if {_stage::playing} is not set:
+        set {_stage::playing} to true
+
+        set {_stage::time} to 0
+
+      # Time plus bossbar's
+      if {_stage::time} >= 60:
+        # Next stage (ending stage)
+        delete {_stage::ending}
+        set {_status} to "ENDING"
+
+      # Checking game state
+      set {_uncatchedCount} to 0
+      loop {_players::*}:
+        {rooms::%{_id}%::catcher} isn't loop-value
+        if {player::%loop-value%::catched} isn't true:
+          add 1 to {_uncatchedCount}
+
+      if {_uncatchedCount} <= 0:
+        delete {_stage::ending}
+        set {_status} to "ENDING"
+
+      # Player's bossbars
+      loop {_players::*}:
+        set {_player} to loop-value
+        
+        set {_bossbar} to {bossbar::%{_player}%}
+
+        # Player variables
+        if {player::%{_player}%::inGame} is not {_id}:
+          set {player::%{_player}%::inGame} to {_id}
+        
+        if {rooms::%{_id}%::catcher} is {_player}:
+          set {_role} to "CATCHER"
+          if glowing of {_player} is true:
+            set glowing of {_player} to false
+        else:
+          set {_role} to "RUNNER"
+          if glowing of {_player} is false:
+            set glowing of {_player} to true
+
+        if {player::%{_player}%::role} isn't {_role}:
+          set {player::%{_player}%::role} to {_role}
+
+        # Catched
+        if {_player}'s gamemode isn't survival:
+          set {_player}'s gamemode to survival
+
+        if {player::%{_player}%::catched} is true:
+          if fly state of {_player} isn't true:
+            set fly state of {_player} to true
+
+          hide {_player}
+        else:
+          if fly state of {_player} is true:
+            set fly state of {_player} to false
+
+      add 0.05 to {_stage::time}
+
+    else if {_status} is "ENDING":
+      # Spawning holograms
+      if {_stage::ending} is not set:
+        set {_stage::time} to 0
+        set {_stage::ending} to true
+
+        # Variables
+        if {player::%{_player}%::inGame} isn't {_id}:
+          set {player::%{_player}%::inGame} to {_id}
+
+        # Visual
+        set {_uncatchedCount} to 0
+        loop {_players::*}:
+          {rooms::%{_id}%::catcher} isn't loop-value
+          if {player::%loop-value%::catched} isn't true:
+            add 1 to {_uncatchedCount}
+
+        if {_uncatchedCount} > 0:
+          loop {_players::*}:
+            if {rooms::%{_id}%::catcher} is loop-value:
+              send title "&c▽ &fВы проиграли" with subtitle "&fНу не поймал ты последнего..." to loop-value for 5 seconds with 0 ticks fade in and 1 second fade out
+            else:
+              send title "&e△ &fВы победили" with subtitle "&fПобегали так побегали!" to loop-value for 5 seconds with 0 ticks fade in and 1 second fade out
+        else:
+          loop {_players::*}:
+            if {rooms::%{_id}%::catcher} is loop-value:
+              send title "&e△ &fВы победили" with subtitle "&fХорошая работа!" to loop-value for 5 seconds with 0 ticks fade in and 1 second fade out
+            else:
+              send title "&c▽ &fВы проиграли" with subtitle "&fНадо было быстрее бегать!" to loop-value for 5 seconds with 0 ticks fade in and 1 second fade out
+
+      # Keeping players at map center
+
+      if {_stage::time} >= 5:
+        # Game end
+        set {_stop} to true
+
+
+      # TODO
+      # Ending animation
+      # Marking this worker as dead
+      
+      add 0.05 to {_stage::time}
+
+    # Variables
+    if {rooms::%{_id}%::time} isn't {_stage::time}:
+      set {rooms::%{_id}%::time} to {_stage::time}
+
+    if {rooms::%{_id}%::status} is not {_status}:
+      set {rooms::%{_id}%::status} to {_status}
+
+    if {workers::room::%{_id}%} is not set:
+      set {workers::room::%{_id}%} to true
+
+    wait 1 tick
+
+on damage:
+  if attacker is not set:
+    cancel event
+  else:
+    # Checking playing mode
+    {player::%victim%::inGame} is set
+    {player::%attacker%::inGame} is set
+
+    set {_role} to {player::%attacker%::role}
+
+    set {_roomId} to {player::%victim%::inGame}
+    set {_status} to {rooms::%{_roomId}%::status}
+
+    {_status} is "PLAYING"
+
+    if {_role} is "CATCHER":
+      # Catched
+      if {player::%victim%::catched} is not true:
+        set {_id} to {player::%victim%::inGame}
+        set {player::%victim%::catched} to true
+
+        # Visual
+
+        set {_uncatchedCount} to 0
+        set {_players::*} to {rooms::%{_id}%::players::*}
+        loop {_players::*}:
+          {rooms::%{_id}%::catcher} isn't loop-value
+          if {player::%loop-value%::catched} is not true:
+            add 1 to {_uncatchedCount}
+
+        loop {_players::*}:
+          send title "&c♡ &f%victim% догнали" with subtitle "&fОсталось бегунов: &c%{_uncatchedCount}%" to loop-value for 3 seconds with 0 ticks fade in and 1 second fade out
+    else:
+      cancel event

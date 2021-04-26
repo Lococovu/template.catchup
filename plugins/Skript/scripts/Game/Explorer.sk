@@ -1,0 +1,89 @@
+command explorer:
+  trigger:
+    open virtual chest inventory with size 6 named "&8Игры" to player
+
+    # Пустые слоты
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_empty}
+
+    set {_slots::*} to 11,12,13, 20,21,22, 29,30,31, 38,39,40, 24,33
+    format gui slot {_slots::*} of player with {_empty}
+
+    # Another Games
+
+    set {_anotherGames} to player head named "&9 &fДругие наши мини-игры" with lore "", "&fЭто не единственная наша мини-игра! У нас их", "&fдостаточно много. Вот небольшой список других игр,", "&fв которые вы можете поиграть прямо сейчас!"
+    add "{SkullOwner:{Id:""8f54d1c4-c599-4c54-8993-2cb371649c33"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgyZmFmOWE1ODRjNGQ2NzZkNzMwYjIzZjg5NDJiYjk5N2ZhM2RhZDQ2ZDRmNjVlMjg4YzM5ZWI0NzFjZTcifX19""}]}}}" to item-nbt of {_anotherGames}
+
+    format gui slot 15 of player with {_anotherGames}
+
+    # Knockback
+
+    set {_waiting} to true
+
+    while {_waiting} is true:
+      if player is offline:
+        stop
+
+      set {_name} to name of player's current inventory
+      if {_name} doesn't contain "Игры":
+        stop
+
+      set {_slots::*} to 11,12,13, 20,21,22, 29,30,31, 38,39,40
+
+      # Game list
+      loop {rooms::*}:
+        set {_id} to loop-value
+        delete {_item}
+        delete {_icon}
+        delete {_title}
+        delete {_status}
+        delete {_status::icon}
+        delete {_stage}
+        delete {_players::*}
+        delete {_stage::time}
+
+        set {_status} to {rooms::%{_id}%::status}
+        set {_players::*} to {rooms::%{_id}%::players::*}
+        set {_stage::time} to {rooms::%{_id}%::time}
+
+        # Visuals
+        set {_icon} to {rooms::%{_id}%::icon}
+        set {_title} to {rooms::%{_id}%::title}
+
+        # Status
+        if {_status} is "IDLE":
+          set {_status::icon} to "&7┅"
+
+          if {_stage::time} is set:
+            set {_stage} to "Старт (%round({_stage::time})% c.)"
+          else:
+            set {_stage} to "Ожидание"
+        else if {_status} is "STARTING":
+          set {_status::icon} to "&7◇"
+          set {_status::stage} to "Старт"
+        else if {_status} is "PLAYING":
+          set {_status::icon} to "&a▷"
+          set {_status::stage} to "Идёт игра"
+        else if {_status} is "ENDING":
+          set {_status::icon} to "&c◁"
+          set {_status::stage} to "Конец"
+        else:
+          set {_status::icon} to "&7┅"
+          set {_stage} to "В простое"
+
+        if {_stage} is not set:
+          set {_stage} to "%{_status::stage}% (%round({_stage::time})% c.)"
+
+        # Item itself
+        set {_item} to player head named "%{_status::icon}% &f%{_title}% &e(%size of {_players::*}%/4)" with lore "&7%{_stage}%"
+        add "%{_icon}%" to item-nbt of {_item}
+
+        # Slot
+        set {_slot} to first element of {_slots::*}
+        remove {_slot} from {_slots::*}
+
+        format gui slot {_slot} of player with {_item} to run:
+          # Assigning to room
+          assignToRoom(player, "%{_id}%")
+      
+      wait 1 second

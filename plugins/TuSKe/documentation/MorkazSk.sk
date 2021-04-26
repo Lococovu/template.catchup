@@ -1,0 +1,552 @@
+Conditions:
+	Entity Having Potion Effect:
+		ID: CondInventoryContainItem
+		Description:
+			Checks if living entity has applied given potion effect(s). 
+			If one of this effects will exist on entity, return will be "true".
+		Examples:
+			on damage:
+				if attacker has potion effect slow:
+					add 1 to damage
+		Since:
+			1.2-beta3
+		Patterns:
+			[morkazsk] %inventory% (has|have|contain[s]) at least %itemstack%
+			[morkazsk] %inventory% (hasn(t|'t)|is((nt|n't)| not) having)|(does not|doesn[']t) contain at least %itemstack%
+	Entity Having Potion Effect:
+		ID: CondIsEntityHavingPotionEffect
+		Description:
+			Checks if living entity has applied given potion effect(s). 
+			If one of this effects will exist on entity, return will be "true".
+		Examples:
+			on damage:
+				if attacker has potion effect slow:
+					add 1 to damage
+		Since:
+			1.0
+		Patterns:
+			[morkazsk] [the] %livingentity% (has|is having) potion effect %potioneffecttypes%
+			[morkazsk] [the] %livingentity% (hasn(t|'t)|is((nt|n't)| not) having) potion effect %potioneffecttypes%
+Effects:
+	Better Remove Item From Inventory:
+		ID: EffBetterRemoveItemFromInventory
+		Description:
+			This effect is created because Skript does not always want to remove given item from specific inventory or sometimes it removes wrong item.
+			Also, Skript's build in effect is very often bugged so this one is just always-working mirror to protect Skript users from troubles.
+		Examples:
+			morkazsk remove item {mmo::gem.item::%player%} from player's inventory
+			remove item 7 of diamonds named "My Diamond" from player's inventory
+		Since:
+			1.2-beta3
+		Patterns:
+			[morkazsk] remove item %itemstack% from %inventory%
+	Drop Item At Location:
+		ID: EffDropItem
+		Description:
+			This effect is created because Skript does not always want to spawn dropped item.
+			Also, Skript's build in effect is very often bugged so this one is just always-working mirror to protect Skript users from troubles.
+		Examples:
+			morkazsk drop item %itemstack% at %location%
+		Since:
+			1.2-beta3
+		Patterns:
+			[morkazsk] drop item %itemstack% at %location%
+	EffSendJsonMessage:
+		ID: EffSendJsonMessage
+		Patterns:
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% (with link|linked|with url) %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% then send [(second|next)] message %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% to run[ command] %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% (with link|linked|with url) %string% then send [(second|next)] message %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% then send [(second|next)] message %string% (with link|linked|with url) %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% (with link|linked|with url) %string% to run[ command] %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% to run[ command] %string% (with link|linked|with url) %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% to run[ command] %string% then send [(second|next)] message %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% then send [(second|next)] message %string% to run[ command] %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% (with link|linked|with url) %string% then send [(second|next)] message %string% to run[ command] %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% (with link|linked|with url) %string% to run[ command] %string% then send [(second|next)] message %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% then send [(second|next)] message %string% (with link|linked|with url) %string% to run[ command] %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% then send [(second|next)] message %string% to run[ command] %string% (with link|linked|with url) %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% to run[ command] %string% then send [(second|next)] message %string% (with link|linked|with url) %string%
+			[morkazsk] send json message %string% to %player% with (secred|tool[ ]tip|hidden)[ message] %string% to run[ command] %string% (with link|linked|with url) %string% then send [(second|next)] message %string%
+	EffSoftURLCall:
+		ID: EffSoftURLCall
+		Patterns:
+			[mor.]call url %string%
+	Naturally Break Block:
+		ID: EffBreakBlock
+		Description:
+			This effect will naturally break given block.
+			It is possible to define specific tool which block will be broken (in this situation drop can be modified by this tool).
+		Examples:
+			command break:
+				trigger:
+					break target-block with player's tool
+		Since:
+			1.0
+		Patterns:
+			[morkazsk] [naturally] break %block%
+			[morkazsk] [naturally] break %block% (using|with) %itemstack%
+	Naturally Break Block:
+		ID: EffBreakBlock
+		Description:
+			This effect will naturally break given block.
+			It is possible to define specific tool which block will be broken (in this situation drop can be modified by this tool).
+		Examples:
+			command break:
+				trigger:
+					break target-block with player's tool
+		Since:
+			1.0
+		Patterns:
+			[morkazsk] [naturally] break %block%
+	Play Sound at Location:
+		ID: EffPlaySound
+		Description:
+			It will play sound at specific location with given pitch and volume for everyone.
+			Use bukkit "Sound" enum names as sound name.
+			List of names is here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+			Bukkit names may be in any case heigh and may be separated with "." instead of "_".
+			If sound name will be not recognized, error will NOT be thrown like in Skript's play sound, so your scripts will not crash and will be safe.
+			There will be notification in console in this case with given sound name that is invalid.
+		Examples:
+			on rightclick:
+				morkazsk play sound "entity_bat_death" at player with pitch 2.0 and volume 2.0 #Make sure to prefix effects that may be identical as other addons syntaxes
+		Since:
+			1.0
+		Patterns:
+			[morkazsk] play [raw] sound %string% at %location% [with] pitch %number% [and] volume %number%
+	Play Sound for Player:
+		ID: EffPlaySoundForPlayer
+		Description:
+			Plays sound only to single player.
+		Examples:
+			play sound "ENTITY_BAT_DEATH" specifically to player with pitch 2.0 and volume 1.0 #Easier syntax for faster usage
+			play sound "ENTITY_BAT_DEATH" at location of player with pitch 2.0 and volume 1.0 for player #You can define from where sound will be played
+		Since:
+			1.0
+		Patterns:
+			play [raw] sound %string% at %location% [with] pitch %number% [and] volume %number% (to|for) %player%
+			play %string% specifically (to|for) %player% [with] pitch %number% [and] volume %number%
+	Push Player or Entity from Location:
+		ID: EffPushEntityFromLocation
+		Description:
+			It will push living entity from location direction with specific force (if definded).
+		Examples:
+			#Force above 2 is very strong
+			push player from location 1 meter behind and 1 meter below player with force 1.5
+			push victim from attacker
+			#Superman example
+			on leftclick:
+				push player from location 1.5 meter behind player with force 2
+		Since:
+			1.0
+		Patterns:
+			push [the] %livingentity% from %location%
+			push [the] %livingentity% from %location% with force %number%
+	Show Block Break Stage to Player:
+		ID: EffShowBlockBreakStage
+		Description:
+			This effect will show block break stage of block in given location.
+		Examples:
+			on rightclick:
+				set {_block} to event-block
+				loop 6 times:
+					show block break stage loop-number at {_block} to all players
+					wait 2 tick
+				break {_block}
+		Since:
+			1.0
+		Patterns:
+			show block (damage|break) stage %number% at %location% (for|to) %players%
+	Spawn Particle at Location:
+		ID: EffSpawnParticle
+		Description:
+			This effect will spawn specified particle with given options. It will be spawned for everyone
+			If chunk will be not loaded, it will not spawn particle, so it is safe and it will not affect your TPS that much like normal spawning may do.
+			Use bukkit "Particle" enum names as particle name. You can use dots and name do not have to be upper cased.
+			List of names is here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+		Examples:
+			#0.01 value is speed in this case.
+			spawn 20 of "flame":0.01 offset by 0.2, 0.2, 0.2 at location 2 meter above player
+			spawn 20 of "flame" offset by 0.2, 0.2, 0.2 with extra 0.01 at location 2 meter above player
+		Since:
+			1.0
+		Patterns:
+			[morkazsk] (summon|play|create|activate|spawn) %number% [of] [particle] %string%:%number% offset (at|by|from) %number%, %number%(,| and) %number% at %location%
+			[morkazsk] (summon|play|create|activate|spawn) %number% [of] [particle] %string% offset (at|by|from) %number%, %number%(,| and) %number% with extra [data] %number% at %location%
+	Spawn Particle for Player:
+		ID: EffShowParticleToPlayer
+		Description:
+			Spawn particle for single player at location.
+		Examples:
+			spawn 20 of particle "FLAME" for player at player offset by 0.2, 0.2, 0.2 with speed 0.05
+		Since:
+			1.0
+		Patterns:
+			[morkazsk](spawn|show) %number% [of] particle[s] %string% (to|for) %player% at %location% offset [by] %number%(, | and )%number%(, | and )%number% with speed %number%
+Expressions:
+	Absorption Hearts Of Player:
+		ID: ExprAbsorptionHeartsOfPlayer
+		Description:
+			Returns number value of absorption hears of player.
+		Examples:
+			set {_absorption} to player's absorption hears
+			add 1 to absorption hearts of player
+		Since:
+			1.2-beta3
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			[morkazsk] absorption heart[s] of %player%
+			[morkazsk] %player%'s absorption heart[s]
+	Actual Chunk of Chunk Enter Event:
+		ID: ExprChunkEnterNewChunk
+		Description:
+			Returns actual chunk of player's location in event "on chunk enter".
+		Examples:
+			on chunk enter:
+				send "Your actual chunk is: %event-actual-chunk%" to player
+		Since:
+			1.1
+		Return type: Chunk
+		Changers:
+			none
+		Patterns:
+			[morkazsk] event(-| )(new|actual)(-| )chunk
+	All Lines Of File:
+		ID: ExprLinesOfFile
+		Description:
+			Return all lines of specific file.
+			Use %morkazskdir% to get path to plugins/MorkazSk directory.
+		Examples:
+			all file lines of "%morkazskdir%/myfile.txt"
+		Since:
+			1.2-beta3
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[morkazsk] [all] file lines of %string%
+	Block Break Dropping Items:
+		ID: ExprBlockBreakBlockDropping
+		Description:
+			Returns boolean if block in "on break" event is dropping items.
+			To set dropping in this event just set this expression to true or false.
+		Examples:
+			on break:
+				if event-block-dropping is true: #Condition example
+					if event-block is blue wool:
+						set event-block-dropping to false #Setting example
+						drop 1 lapis lazuli at location of event-block
+						#Block will be destroyed but it will not drop default items.
+						#Use it if you want make your script compatible with other scripts/plugins.
+						#Also, do it this way if you want to manage block dropping without event canceling.
+		Since:
+			1.1-beta1
+		Return type: Item / Material
+		Changers:
+			set
+			delete
+		Patterns:
+			event(-| )block(-| )dropping
+	Cursor Item of Player:
+		ID: ExprCursorItemOfPlayer
+		Description:
+			Returns item in cursor while any gui is oppened.
+		Examples:
+			set cursor item of player to air
+			if type of event-item is type of cursor item of player
+			delete cursor item of player #sets item in cursor to air
+			add 5 to cursor item of player #adds 5 to amount of item in cursor.
+		Since:
+			1.0
+		Return type: Item / Material
+		Changers:
+			add
+			set
+			remove
+			delete
+		Patterns:
+			[morkazsk] cursor item of %player%
+	Date from Unix Time:
+		ID: ExprDateFromUnix
+		Description:
+			Return skript's date object from unix time number.
+		Examples:
+			date from unix {_long.number}
+		Since:
+			1.0
+		Return type: Item / Material
+		Changers:
+			none
+		Patterns:
+			date (from|of) unix [(timestamp|milis)] %number%
+	Drops Of Block:
+		ID: ExprDropOfBlock
+		Description:
+			Returns generated drop list of block. You can specify tool using second syntax.
+		Examples:
+			set {_drops::*} to drops of block
+			set {_with.tool.drops::*} to drops of block with player's tool
+		Since:
+			1.0
+		Return type: Item / Material
+		Changers:
+			none
+		Patterns:
+			[morkazsk] drops of %block%
+			[morkazsk] drops of %block% (with|using) [tool] %itemstack%
+	Duration of Potion Effect:
+		ID: ExprDurationOfPotionOnEntity
+		Description:
+			Returns duration of applied potion effect of entity.
+		Examples:
+			set {_duration} to duration of potion effect slow of player
+				if {_duration} < 10 seconds:
+					send "Slow will disappear in %{_duration}%!"
+		Since:
+			1.0
+		Return type: Timespan
+		Changers:
+			none
+		Patterns:
+			duration[s] of [potion [effect [type]]] %potioneffecttypes% of %livingentity%
+	Fishing Caught Entity:
+		ID: ExprFishingCaughtEntity
+		Description:
+			Caught entity (hooked by fishing rod) in fishing event. It may be also fish drop item in specific fishing state.
+		Examples:
+			on fishing:
+				if fishing state is "CAUGHT_FISH":
+					send "Wow, you caught %items within caught entity%!"
+		Since:
+			1.0
+		Return type: Entity
+		Changers:
+			add
+			remove
+			remove all
+		Patterns:
+			[fishing(-| )]caught(-| )entity
+	Fishing Hook:
+		ID: ExprFishingHook
+		Description:
+			Return fishing hook as Entity in fishing event.
+		Examples:
+			distance between location of fishing hook and player
+			block at location of fishing hook
+		Since:
+			1.0
+		Return type: Entity
+		Changers:
+			add
+			remove
+			remove all
+		Patterns:
+			fishing(-| )hook
+	Fishing State:
+		ID: ExprFishingState
+		Description:
+			Return fishing state as string in fishing event.
+		Examples:
+			if fishing state is "CAUGHT_FISH":
+				send "your fishing state: %fishing state%" to player
+		Since:
+			1.0
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			fishing(-| )state
+	Growth Level/Age of Block:
+		ID: ExprAgeOfBlock
+		Description:
+			Returns age number of block. If block is crop, returns growth level. 1.14+
+		Examples:
+			set {_growth.level} to growth level of event-block
+			add 1 to age of event-block
+		Since:
+			1.2-beta3
+		Return type: integer
+		Changers:
+			add
+			set
+			remove
+			delete
+		Patterns:
+			[morkazsk] (age[able]|growth level) of %block%
+	Hanging entity:
+		ID: ExprHangingEntity
+		Description:
+			Return hanging entity in hanging events.
+		Examples:
+			if hanging entity is a item frame:
+				send "It is item frame!"
+		Since:
+			1.0
+		Return type: Entity
+		Changers:
+			add
+			remove
+			remove all
+		Patterns:
+			hang[ing](-| )entity
+	Item of Dropped Item:
+		ID: ExprItemOfItemEntity
+		Description:
+			Returns item from dropped item entity.
+		Examples:
+			set {_item} to item within caught entity #In fishing event
+			set {_item} to item within loop-entity
+		Since:
+			1.0
+		Return type: Item / Material
+		Changers:
+			set
+			delete
+		Patterns:
+			[morkazsk] item[s] (of|within) %entity%
+	Last Login Date of Offline Player:
+		ID: ExprLastLoginOfOfflinePlayer
+		Description:
+			Returns date of last login of offline player. 
+			If offline player never logged, it will be <none>.
+		Examples:
+			set {_date} to last login of "Morkazoid" parsed as offline player
+		Since:
+			1.0
+		Return type: Date
+		Changers:
+			none
+		Patterns:
+			last (login|played) [date] of [the] %offlineplayer%
+	Last Login Date of Player:
+		ID: ExprLastLoginOfPlayer
+		Description:
+			Returns date of last login of player.
+			If player never logged, it will be <none>.
+		Examples:
+			set {_date} to last login of player
+		Since:
+			1.0
+		Return type: Date
+		Changers:
+			none
+		Patterns:
+			last (login|played) [date] of %player%
+	Piston Block:
+		ID: ExprBlockMovePistonBlock
+		Description:
+			Returns piston block in piston events.
+		Examples:
+			on block piston push:
+				broadcast "piston %event-piston-block% at location: %location of event-piston-block% pushed block %event-block% at %event-location%
+		Since:
+			1.1
+		Return type: Block
+		Changers:
+			add
+			set
+			remove
+			remove all
+			delete
+		Patterns:
+			event(-| )piston(-| )block
+	Potion Effect Types of Potion Item:
+		ID: ExprPotionEffectsOfPotion
+		Description:
+			Returns all potion effect types in potion.
+		Examples:
+			set {_potion.effects::*} to potion effects of player's tool
+		Since:
+			1.2-beta3
+		Return type: Potion Effect Type
+		Changers:
+			none
+		Patterns:
+			[morkazsk] [all] potion effects of %itemstack%
+	Previous Chunk of Chunk Enter Event:
+		ID: ExprChunkEnterPreviousChunk
+		Description:
+			Returns previous chunk in event "on chunk enter".
+		Examples:
+			on chunk enter:
+				send "Your previous chunk is: %event-previous-chunk%" to player
+		Since:
+			1.1
+		Return type: Chunk
+		Changers:
+			none
+		Patterns:
+			[morkazsk] event(-| )(old|previous)(-| )chunk
+	Sorted List By Values With Custom Format:
+		ID: ExprSortWithCustomOutput
+		Description:
+			Returns sorted list with custom format of values.
+			Use @value and @index to manipulate content of variable list.
+		Examples:
+			set {_top::*} to sorted {levels::players::*} from highest to lowest with format "@index: @value LVL"
+			loop {_top::*}:
+				send "%loop-value%" to player
+		Since:
+			1.0
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			sorted %numbers% from highest to lowest with (output|format) %string%
+			sorted %numbers% from lowest to highest with (output|format) %string%
+	Statistics of Player:
+		ID: ExprStatisticOfPlayer
+		Description:
+			Returns statistics of player. You can find all statistic names here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Statistic.html
+		Examples:
+			set {_time.played} to statistic "PLAY_ONE_MINUTE" of player #Name is misleading, it returns ticks!
+			set {_time.played} to "%{_time.played}% ticks" parsed as timespan #Change raw ticks number to timespan
+			send "%{_time.played}%" to player # Precise output of play time of player
+			 
+			set {_mined.stones} to statistic "MINE_BLOCK" of player with data "STONE" parsed as material #Grabs amount of mined stones
+			send "&aYou have mined &3%{_mined.stones}&a!%" #NOTE - If one of your scripts/plugins cancel block break event, mined blocks will NOT be calculated propetly!
+		Since:
+			1.2
+		Return type: integer
+		Changers:
+			add
+			set
+			remove
+			delete
+		Patterns:
+			[morkazsk] statistic %string% (from|of) %player%
+			[morkazsk] statistic %string% (from|of) %player% (of|with data) %object%
+	Tier/Level of Potion Effect of Entity:
+		ID: ExprTierOfPotionOnEntity
+		Description:
+			Returns tier level of given potion effect type applied to entity.
+		Examples:
+			set {_tier} to tier of potion effect slow of victim
+		Since:
+			1.0
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			tier[s] of [potion [effect [type]]] %potioneffecttypes% of %livingentity%
+	Unix Time from Date:
+		ID: ExprUnixFromDate
+		Description:
+			Returns unix time (long number) of skript's date object.
+		Examples:
+			set {_unix.time} to unix of now
+		Since:
+			1.0
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[morkazsk] unix [(timestamp|milis)] (from|of) [date] %date%
