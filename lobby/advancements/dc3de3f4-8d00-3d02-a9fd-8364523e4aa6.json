@@ -1,0 +1,10 @@
+{
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:snowy_tundra": "2021-04-26 21:17:10 +0300",
+      "minecraft:plains": "2021-04-26 21:11:06 +0300"
+    },
+    "done": false
+  },
+  "DataVersion": 2586
+}

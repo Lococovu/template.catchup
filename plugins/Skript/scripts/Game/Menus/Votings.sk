@@ -180,11 +180,11 @@ command vote [<text>]:
 
                 add {_code} to {voteKick::list::*}
 
-              loop all players:
-                if {authorized::%loop-player%} is true:
-                  send "&e△ &f%player% проголосовал за &eКик игрока @%{_player}%" to loop-value-2
-                  send "  &7Нужно ещё %{_countNeeded} - {_count}% &7голосов." to loop-value-2
-                  send "  &7Пропишите /vote %{_code}% что бы проголосовать." to loop-value-2
+              # loop all players:
+              #   if {authorized::%loop-player%} is true:
+              #     send "&e△ &f%player% проголосовал за &eКик игрока @%{_player}%" to loop-value-2
+              #     send "  &7Нужно ещё %{_countNeeded} - {_count}% &7голосов." to loop-value-2
+              #     send "  &7Пропишите /vote %{_code}% что бы проголосовать." to loop-value-2
               
               set {_time} to now
               add 10 minutes to {_time}

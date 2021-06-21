@@ -96,7 +96,7 @@ every 1 tick:
             # Uncatched
             else:
               set {_color} to GREEN
-              set {_title} to "&a◇ &fВы &aУбегающий &f● &fВремя: %round({_stage::time})% &ac."
+              set {_title} to "&a◇ &fВы &aУбегающий &f● &fВремя: %round({_time})% &ac."
         else if {_status} is "ENDING":
           set {_color} to WHITE
           set {_title} to "&fКонец игры ● &f%round(5- {_time})% &fc."

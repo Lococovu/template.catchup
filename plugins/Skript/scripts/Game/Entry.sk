@@ -1,4 +1,7 @@
 function PlayerEntry(player: player, fromGame: boolean):
+  if {player::%{_player}%::setting::autoJoinQueue} is not set:
+    set {player::%{_player}%::setting::autoJoinQueue} to true
+
   # Teleporting player to lobby
   set {_location} to getLocation("-17.5, 4, -144.5", "lobby")
   set glowing of {_player} to false
@@ -13,10 +16,9 @@ function PlayerEntry(player: player, fromGame: boolean):
   # Items in player's inventory
   lobby_items({_player})
 
-  if {_fromGame} isn't true:
-    if {player::%{_player}%::setting::autoJoinQueue} is true:
-      # Joining queue
-      joinQueue({_player})
+  if {player::%{_player}%::setting::autoJoinQueue} is true:
+    # Joining queue
+    joinQueue({_player})
 
   wait 2 ticks
 
