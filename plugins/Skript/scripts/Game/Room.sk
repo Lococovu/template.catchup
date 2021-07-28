@@ -222,7 +222,7 @@ function roomWorker(id: string):
           evaluate:
             skellett hide bossbar {_bossbar}
 
-        PlayerEntry(loop-value, true)
+        PlayerEntry(loop-value)
 
       # Keeping only spawns info
       delete {rooms::%{_id}%::restore::*}
