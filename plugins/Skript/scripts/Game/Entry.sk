@@ -1,4 +1,4 @@
-function PlayerEntry(player: player, fromGame: boolean):
+function PlayerEntry(player: player):
   if {player::%{_player}%::setting::autoJoinQueue} is not set:
     set {player::%{_player}%::setting::autoJoinQueue} to true
 
